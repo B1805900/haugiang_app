@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import '../../../common/constant.dart';
 import '../../../common/widgets/background.dart';
 import '../../../common/widgets/custom_appbar.dart';
-import '../../../common/widgets/custom_loader.dart';
 import '../../../data/models/classroom.dart';
 import '../controllers/dashboard_controller.dart';
 
@@ -36,25 +35,11 @@ class DashboardView extends GetView<DashboardController> {
       );
     }
   Widget buildClassRoomList(BuildContext context) {
-    var streamBuilder = StreamBuilder<List<SurveyModel>>(
-        stream: controller.getClassRoom(),
-        builder: (BuildContext context,
-            AsyncSnapshot<List<SurveyModel>> classRoomsSnapshot) {
-          if (classRoomsSnapshot.hasError) {
-            return Text('Error: ${classRoomsSnapshot.error}');
-          }
-          switch (classRoomsSnapshot.connectionState) {
-            case ConnectionState.waiting:
-              return LoadingScreen(height: Get.size.height);
-            default:
-              if (classRoomsSnapshot.data!.isEmpty) {
-                return buildNullList(context);
-              }
-              return Padding(
+    List<SurveyModel> surVey = controller.getClassRoom();
+               return Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: ListView(
-                    children: classRoomsSnapshot.data!
-                        .map((SurveyModel surVey) {
+                  children: surVey.map((SurveyModel surVey) {
                   return InkWell(
                     onTap: () {},
                     child: Padding(
@@ -100,9 +85,6 @@ class DashboardView extends GetView<DashboardController> {
                   );
                 }).toList()),
               );
-          }
-        });
-    return streamBuilder;
   }
 
   Widget buildDrawer(BuildContext context) {
