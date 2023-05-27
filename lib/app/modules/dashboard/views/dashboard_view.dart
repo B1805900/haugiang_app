@@ -36,12 +36,24 @@ class DashboardView extends GetView<DashboardController> {
     }
   Widget buildClassRoomList(BuildContext context) {
     List<SurveyModel> surVey = controller.getClassRoom();
+    if (surVey.isEmpty){
+      return Padding(
+      padding: const EdgeInsets.only(top: 24),
+      child: buildNullList(context),
+    );
+    }
       return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16),
       child: ListView(
         children: surVey.map((SurveyModel surVey) {
         return InkWell(
-          onTap: () {},
+          onTap: () {
+           ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("${surVey.idSurvey}"),
+            ),
+          );
+          },
           child: Padding(
             padding: const EdgeInsets.only(top: 8),
             child: Container(
@@ -59,17 +71,17 @@ class DashboardView extends GetView<DashboardController> {
                       const Icon(Icons.class_rounded,
                           color: primaryColor),
                       const SizedBox(width: 8),
-                      SizedBox(
-                        width: Get.width * 0.7,
-                        child: Text(
-                          "Tên khảo sát: ${surVey.nameSurvey}",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontSize: 16, color: Colors.black),
+                        SizedBox(
+                          width: Get.width * 0.7,
+                          child: Text(
+                            "Tên khảo sát: ${surVey.nameSurvey}",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.black),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
                   ),
                   Row(
                     children: [
@@ -104,7 +116,9 @@ class DashboardView extends GetView<DashboardController> {
                     icon: Icons.logout,
                     iconColor: Colors.black,
                     onPressed: () {
-                      SystemNavigator.pop();
+                      // SystemNavigator.pop();
+                      Get.back();
+                      Get.back();
                     }),
               ],
             ),
@@ -137,7 +151,7 @@ class DashboardView extends GetView<DashboardController> {
       margin: const EdgeInsets.only(top: 20),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.red[400],
+        color: const Color.fromARGB(255, 235, 107, 104),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
@@ -148,8 +162,8 @@ class DashboardView extends GetView<DashboardController> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
-            child: const Text('Bạn chưa tham gia lớp học nào',
+            padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
+            child: const Text('Hiện chưa có khảo sát!',
                 style: TextStyle(fontSize: 20, color: Colors.white)),
           )
         ],
