@@ -1,16 +1,18 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
-import '../../../data/models/classroom.dart';
+import '../../../data/models/survey.dart';
 
 class DashboardController extends GetxController {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   //TODO: Implement DashboardController
     List<SurveyModel> getClassRoom() {
     List<SurveyModel> classRooms = [];
-    SurveyModel ks1 = SurveyModel('a', 'b', 'c', 'd', 'e');
-    print(ks1.nameSurvey);
-    classRooms.add(ks1);
+    // SurveyModel ks1 = SurveyModel('ID Khảo sát', 'Tên Khảo sát', 'Thời gian tạo', 'Thời gian kết thúc', 'ID người tạo');
+    // SurveyModel ks2 = SurveyModel('#00001', 'Đánh giá thủ tục làm CCCD', '27/05/2023', '27/06/2023', '003');
+    classRooms.add(SurveyModel('ID Khảo sát', 'Tên Khảo sát', 'Thời gian tạo', 'Thời gian kết thúc', 'ID người tạo'));
+    classRooms.add(SurveyModel('#00001', 'Đánh giá thủ tục làm CCCD', '27/05/2023', '27/06/2023', '003'));
+
     // await for (var classRoomSnapshot in classRoomsStream) {
     //   classRooms.clear();
     //   for (var classRoomDoc in classRoomSnapshot.docs) {
