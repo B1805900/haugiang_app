@@ -11,44 +11,31 @@ class SinginView extends GetView<SinginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Đăng nhập'),
+        title: const Text('Thông tin cá nhân'),
         centerTitle: true,
       ),
-      // ignore: avoid_unnecessary_containers
-      body: Stack(
-        children: [
-          // Background(
-          //   height: MediaQuery.of(context).size.height,
-          // ),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 200, 24, 0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Center(
-                  //     child: SizedBox(
-                  //       height: 150,
-                  //       width: 150,
-                  //       child: CircleAvatar(
-                  //         backgroundColor: Colors.white,
-                  //         child: Center(
-                  //           child: Image.asset('assets/images/logo.png'),
-                  //         ),
-                  //       ),
-                  //     ),
-                  // ),
-                  _buildLoginForm(context),
-                ],
+      body: Container( // hoặc Expanded
+        color: const Color.fromARGB(255, 216, 237, 237),
+        padding: const EdgeInsets.symmetric(vertical: 60.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: SizedBox(
+                width: 200,
+                height: 200,
+                child: Image.asset('assets/images/logo.png'),
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 5),
+            _buildLoginForm(context),
+          ],
+        ),
       ),
     );
   }
-  Form _buildLoginForm(BuildContext context) {
+    Form _buildLoginForm(BuildContext context) {
     return Form(
       key: controller.formKey,
       child: Column(
@@ -76,7 +63,7 @@ class SinginView extends GetView<SinginController> {
                     controller.fullname = "Phan Bảo Nhân";
                   },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 TextFormField(
                   keyboardType: TextInputType.number,
                   decoration: buildDecorationTextFormField(
@@ -93,7 +80,24 @@ class SinginView extends GetView<SinginController> {
                     controller.cccd = value!;
                   },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  decoration: buildDecorationTextFormField(
+                      hintText: 'Số điện thoại...', icon: Icons.phone_android),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Số điện thoại không được rỗng";
+                    } else if (!GetUtils.isNum(value)) {
+                      return "Vui lòng nhập số điện thoại hợp lệ";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    controller.phone = value!;
+                  },
+                ),
+                const SizedBox(height: 10),
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   decoration: buildDecorationTextFormField(
@@ -110,16 +114,16 @@ class SinginView extends GetView<SinginController> {
                     controller.email = value!;
                   },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 TextFormField(
-                  obscureText: true,
+                  keyboardType: TextInputType.text,
                   decoration: buildDecorationTextFormField(
-                      hintText: 'Mật khẩu...', icon: Icons.lock),
+                      hintText: 'Địa chỉ...', icon: Icons.location_city),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Mật khẩu không được rỗng';
+                      return 'Địa chỉ không được rỗng';
                     } else if (value.length < 6) {
-                      return 'Vui lòng nhập chính xác mật khẩu';
+                      return 'Vui lòng nhập địa chỉ hợp lệ';
                     }
                     return null;
                   },
@@ -127,9 +131,9 @@ class SinginView extends GetView<SinginController> {
                     controller.password = value!;
                   },
                 ),
-                const SizedBox(height: 46),
+                const SizedBox(height: 30),
                 InkWell(
-                  onTap: () => controller.handleSignIn(context),
+                  onTap: () => Get.toNamed(Routes.DASHBOARD),
                   child: Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(vertical: 14),
@@ -138,7 +142,7 @@ class SinginView extends GetView<SinginController> {
                       color: const Color.fromARGB(255, 189, 223, 89),
                     ),
                     child: const Text(
-                      'Đăng nhập',
+                      'Tiếp tục',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -150,14 +154,14 @@ class SinginView extends GetView<SinginController> {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           InkWell(
             onTap: () => Get.toNamed(Routes.QRSCANER),
             child: TextButton(
               onPressed: () {
                 Get.toNamed(Routes.QRSCANER);
               },
-              child: const Text('Đăng nhập bằng QR CCCD',
+              child: const Text('Tiếp tục bằng QR CCCD',
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w600,

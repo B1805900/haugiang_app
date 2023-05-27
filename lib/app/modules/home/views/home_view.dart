@@ -18,6 +18,7 @@ class HomeView extends GetView<HomeController> {
       
       // ignore: avoid_unnecessary_containers
       body: Container( // hoặc Expanded
+        color: const Color.fromARGB(255, 216, 237, 237),
         padding: const EdgeInsets.symmetric(vertical: 60.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,7 +39,7 @@ class HomeView extends GetView<HomeController> {
                 style: TextStyle(
                     color: Color.fromARGB(255, 30, 101, 167),
                     fontSize: 19,
-                    backgroundColor: Colors.white,
+                  //  backgroundColor: Colors.white,
                     fontWeight: FontWeight.bold,
                 ),
                   maxLines: 3,

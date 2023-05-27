@@ -56,6 +56,7 @@ class _ColorLoaderState extends State<ColorLoader>
       colorAnimations.add(animation);
     }
 
+    // ignore: avoid_print
     print(colorAnimations.length);
 
     tweenIndex = 0;
