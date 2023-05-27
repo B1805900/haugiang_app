@@ -8,6 +8,8 @@ import '../modules/qrscaner/bindings/qrscaner_binding.dart';
 import '../modules/qrscaner/views/qrscaner_view.dart';
 import '../modules/singin/bindings/singin_binding.dart';
 import '../modules/singin/views/singin_view.dart';
+import '../modules/survey_detail/bindings/survey_detail_binding.dart';
+import '../modules/survey_detail/views/survey_detail_view.dart';
 
 part 'app_routes.dart';
 
@@ -36,6 +38,11 @@ class AppPages {
       name: _Paths.QRSCANER,
       page: () => const QrscanerView(),
       binding: QrscanerBinding(),
+    ),
+    GetPage(
+      name: _Paths.SURVEY_DETAIL,
+      page: () => const SurveyDetailView(),
+      binding: SurveyDetailBinding(),
     ),
   ];
 }

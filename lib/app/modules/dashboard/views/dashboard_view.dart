@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 
@@ -7,6 +6,7 @@ import '../../../common/constant.dart';
 import '../../../common/widgets/background.dart';
 import '../../../common/widgets/custom_appbar.dart';
 import '../../../data/models/survey.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/dashboard_controller.dart';
 
 import 'constants.dart';
@@ -27,15 +27,15 @@ class DashboardView extends GetView<DashboardController> {
               Background(height: Get.size.height),
               Padding(
                 padding: const EdgeInsets.only(top: 24),
-                child: buildClassRoomList(context),
+                child: buildSurveyList(context),
               ),
             ],
           ),
         ),
       );
     }
-  Widget buildClassRoomList(BuildContext context) {
-    List<SurveyModel> surVey = controller.getClassRoom();
+  Widget buildSurveyList(BuildContext context) {
+    List<SurveyModel> surVey = controller.getSurveyList();
     if (surVey.isEmpty){
       return Padding(
       padding: const EdgeInsets.only(top: 24),
@@ -48,11 +48,7 @@ class DashboardView extends GetView<DashboardController> {
         children: surVey.map((SurveyModel surVey) {
         return InkWell(
           onTap: () {
-           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("${surVey.idSurvey}"),
-            ),
-          );
+              Get.toNamed(Routes.SURVEY_DETAIL, arguments: surVey.idSurvey);
           },
           child: Padding(
             padding: const EdgeInsets.only(top: 8),

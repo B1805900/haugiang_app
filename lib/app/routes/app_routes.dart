@@ -7,6 +7,7 @@ abstract class Routes {
   static const DASHBOARD = _Paths.DASHBOARD;
   static const SINGIN = _Paths.SINGIN;
   static const QRSCANER = _Paths.QRSCANER;
+  static const SURVEY_DETAIL = _Paths.SURVEY_DETAIL;
 }
 
 abstract class _Paths {
@@ -15,4 +16,5 @@ abstract class _Paths {
   static const DASHBOARD = '/dashboard';
   static const SINGIN = '/singin';
   static const QRSCANER = '/qrscaner';
+  static const SURVEY_DETAIL = '/survey-detail';
 }
