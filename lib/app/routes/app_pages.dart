@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/apidemo/bindings/apidemo_binding.dart';
+import '../modules/apidemo/views/apidemo_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -43,6 +45,11 @@ class AppPages {
       name: _Paths.SURVEY_DETAIL,
       page: () => const SurveyDetailView(),
       binding: SurveyDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.APIDEMO,
+      page: () => const ApidemoView(),
+      binding: ApidemoBinding(),
     ),
   ];
 }

@@ -20,15 +20,15 @@ class SinginView extends GetView<SinginController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Align(
-              alignment: Alignment.topCenter,
-              child: SizedBox(
-                width: 200,
-                height: 200,
-                child: Image.asset('assets/images/logo.png'),
-              ),
-            ),
-            const SizedBox(height: 5),
+            // Align(
+            //   alignment: Alignment.topCenter,
+            //   child: SizedBox(
+            //     width: 200,
+            //     height: 200,
+            //     child: Image.asset('assets/images/logo.png'),
+            //   ),
+            // ),
+            // const SizedBox(height: 5),
             _buildLoginForm(context),
           ],
         ),
@@ -162,6 +162,21 @@ class SinginView extends GetView<SinginController> {
                 Get.toNamed(Routes.QRSCANER);
               },
               child: const Text('Tiếp tục bằng QR CCCD',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey,
+                  )),
+            ),
+          ),
+          const SizedBox(height: 10),
+          InkWell(
+            onTap: () => Get.toNamed(Routes.APIDEMO),
+            child: TextButton(
+              onPressed: () {
+                Get.toNamed(Routes.APIDEMO);
+              },
+              child: const Text('Test API',
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
