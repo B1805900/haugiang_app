@@ -5,6 +5,7 @@ import '../../../data/models/survey_detail.dart';
 class SurveyDetailController extends GetxController {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   //TODO: Implement SurveyDetailController
+  
   List<SurveydetailModel> getServeydetail() {
     List<SurveydetailModel> surveydetail = [];
     surveydetail.add(SurveydetailModel('Màu yêu thích', ['Red', 'Blue', 'Green'],1));

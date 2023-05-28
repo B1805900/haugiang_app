@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../common/constant.dart';
 import '../../../common/widgets/background.dart';
-import '../../../routes/app_pages.dart';
 import '../controllers/survey_detail_controller.dart';
 
 import '../../../data/models/survey_detail.dart';
