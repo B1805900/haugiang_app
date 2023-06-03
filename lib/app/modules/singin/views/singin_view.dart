@@ -14,31 +14,30 @@ class SinginView extends GetView<SinginController> {
         title: const Text('Thông tin cá nhân'),
         centerTitle: true,
       ),
-      body: Container( // hoặc Expanded
-        color: const Color.fromARGB(255, 216, 237, 237),
-        padding: const EdgeInsets.symmetric(vertical: 60.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Align(
-            //   alignment: Alignment.topCenter,
-            //   child: SizedBox(
-            //     width: 200,
-            //     height: 200,
-            //     child: Image.asset('assets/images/logo.png'),
-            //   ),
-            // ),
-            // const SizedBox(height: 5),
-            _buildLoginForm(context),
-          ],
-        ),
+body: Container(
+  color: const Color.fromARGB(255, 216, 237, 237),
+  padding: const EdgeInsets.symmetric(vertical: 60.0),
+  child: SingleChildScrollView(
+    child: Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // ...Các phần tử khác
+          _buildLoginForm(context),
+        ],
       ),
+    ),
+  ),
+),
+
+
     );
   }
-    Form _buildLoginForm(BuildContext context) {
+  Form _buildLoginForm(BuildContext context) {
     return Form(
       key: controller.formKey,
-      child: Column(
+      child: SingleChildScrollView(
+        child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -185,6 +184,7 @@ class SinginView extends GetView<SinginController> {
             ),
           ),
         ],
+      ),
       ),
     );
   }  
