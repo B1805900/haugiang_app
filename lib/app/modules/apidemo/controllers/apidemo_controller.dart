@@ -5,23 +5,29 @@ import 'package:http/http.dart' as http;
 
 class ApidemoController extends GetxController {
   //TODO: Implement ApidemoController
-    // Khởi tạo một biến observable để lưu trữ dữ liệu từ API
-  var property1 = ''.obs;
-  var property2 = ''.obs;
+  var propertyList = <Map<String, dynamic>>[].obs;
 
   void fetchData() async {
-    var url = Uri.parse('http://bot.ctu-it.com/survey.php?id=Phan%20B%E1%BA%A3o%20Nh%C3%A2n&users=12345');
+    var url = Uri.parse('http://api.ctu-it.com/survey.php');
     try {
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
-        var jsonData = json.decode(response.body);
-        if (jsonData is Map<String, dynamic>) {
-          property1.value = jsonData['property1'];
-          property2.value = jsonData['property2'];
-        } else {
-          print('Dữ liệu trả về không phải là một đối tượng Map');
+        var jsonString = response.body;
+        var jsonDataList = jsonString.split('}{');
+        jsonDataList = jsonDataList.map((jsonString) {
+          if (!jsonString.startsWith('{')) jsonString = '{' + jsonString;
+          if (!jsonString.endsWith('}')) jsonString += '}';
+          return jsonString;
+        }).toList();
+
+        var properties = <Map<String, dynamic>>[];
+        for (var jsonData in jsonDataList) {
+          var property = json.decode(jsonData);
+          properties.add(property);
         }
+
+        propertyList.value = properties;
       } else {
         print('Lỗi khi gọi API: ${response.statusCode}');
       }

@@ -8,7 +8,6 @@ class ApidemoView extends GetView<ApidemoController> {
   const ApidemoView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    controller.fetchData();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dữ liệu từ API'),
@@ -17,15 +16,33 @@ class ApidemoView extends GetView<ApidemoController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Obx(() => Text('Property 1: ${controller.property1.value}')),
-            Obx(() => Text('Property 2: ${controller.property2.value}')),
+            Obx(
+              () {
+                if (controller.propertyList.isEmpty) {
+                  return const Text('Không có dữ liệu');
+                } else {
+                  return Column(
+                    children: controller.propertyList.map((property) {
+                      return Column(
+                        children: [
+                          Text('Property 1: ${property['id_survey']}'),
+                          Text('Property 2: ${property['name_survey']}'),
+                          Text('Property 3: ${property['time_create']['date'].substring(0, 10)}'),
+                          Text('Property 4: ${property['time_end']['date'].substring(0, 10)}'),
+                          Text('Property 5: ${property['username']}'),
+                          const SizedBox(height: 10),
+                        ],
+                      );
+                    }).toList(),
+                  );
+                }
+              },
+            ),
           ],
         ),
       ),
-      
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Gọi hàm fetchData() để lấy dữ liệu từ API
           controller.fetchData();
         },
         child: const Icon(Icons.refresh),
