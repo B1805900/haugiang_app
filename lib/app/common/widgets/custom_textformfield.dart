@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../constant.dart';
 
 InputDecoration buildDecorationTextFormField(
-    {required String hintText, required IconData icon}) {
+    {required String hintText, IconData? icon}) {
   return InputDecoration(
     contentPadding: const EdgeInsets.symmetric(vertical: 10),
     hintText: hintText,

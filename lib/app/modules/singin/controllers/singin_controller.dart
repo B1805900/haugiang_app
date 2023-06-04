@@ -5,12 +5,26 @@ import 'package:get/get.dart';
 class SinginController extends GetxController {
   //TODO: Implement SinginController
     final formKey = GlobalKey<FormState>();
-    String cccd = '';
-    String fullname = '';
-    String phone = '';
-    String email = '';
-    String address = '';
-    String password = '';
+    var selectedOption = 'Nam'.obs;
+
+    void changeOption(String option) {
+      selectedOption.value = option;
+    }
+
+    String? fullname;
+    int? cccd;
+    int? phone;
+    String? email;
+    String? address;
+    int? age;
+    String? gender;
+    String? nation;
+    String? education;
+    int? numpeople;
+    int? numfemale;
+    String? job;
+    int? income;
+    String? usedservice;
 
   final count = 0.obs;
   @override
@@ -35,7 +49,7 @@ class SinginController extends GetxController {
     print('Login Button!');
     ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-        content: Text(cccd),
+        content: Text(cccd as String),
         duration: const Duration(seconds: 2),
       ),
     );
@@ -45,7 +59,7 @@ class SinginController extends GetxController {
     builder: (BuildContext context) {
     return AlertDialog(
       title: const Text('Thông báo'),
-      content: Text(email),
+      content: Text(email!),
       actions: [
         TextButton(
           child: const Text('Đóng'),
