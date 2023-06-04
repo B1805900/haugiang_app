@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../data/models/survey_detail.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class SurveyDetailController extends GetxController {
   final scaffoldKey = GlobalKey<ScaffoldState>();
