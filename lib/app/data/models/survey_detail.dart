@@ -1,4 +1,3 @@
-
 class SurveydetailModel {
   String? question;
   int? type;

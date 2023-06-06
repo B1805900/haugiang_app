@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-
 import '../modules/apidemo/bindings/apidemo_binding.dart';
 import '../modules/apidemo/views/apidemo_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';

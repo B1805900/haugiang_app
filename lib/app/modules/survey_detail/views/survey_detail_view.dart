@@ -25,7 +25,6 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
               padding: const EdgeInsets.only(top: 24),
               child: buildAnswerList(context),
             ),
-            
           ],
         ),
     );
@@ -95,9 +94,9 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                       itemBuilder: (context, index) {
                       return Obx(() => CheckboxListTile( 
                           title: Text(" ${index+1} . ${surVeydetail.answers![index]} "), 
-                          value: controller.isChecked.value,
+                          value: controller.checkedStates[index], 
                           onChanged: (value) {
-                            controller.toggleCheckbox();
+                            controller.toggleCheckbox(index);
                           },
                         ),
                       ); 

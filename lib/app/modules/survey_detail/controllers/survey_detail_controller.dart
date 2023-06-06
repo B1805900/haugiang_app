@@ -18,9 +18,11 @@ class SurveyDetailController extends GetxController {
   }
 
   var isChecked = false.obs;
+  List<bool> checkedStates = [false, false, false];
   
-  void toggleCheckbox() {
+  void toggleCheckbox(index) {
     isChecked.value = !isChecked.value;
+    //checkedStates[index] = !checkedStates[index];
   }
 
   final count = 0.obs;
