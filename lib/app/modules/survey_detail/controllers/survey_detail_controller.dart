@@ -10,22 +10,21 @@ class SurveyDetailController extends GetxController {
   
   List<SurveydetailModel> getServeydetail() {
     List<SurveydetailModel> surveydetail = [];
-    surveydetail.add(SurveydetailModel('Màu yêu thích', ['Red', 'Blue', 'Green'],1));
-    surveydetail.add(SurveydetailModel('Màu ghét nhất', ['Red', 'Blue', 'Green'],3));
-    surveydetail.add(SurveydetailModel('Mùi thích nhất', ['Red', 'Blue', 'Green'],1));
-    surveydetail.add(SurveydetailModel('Mùi ghét nhất', ['Red', 'Blue', 'Green'],3));
+    surveydetail.add(SurveydetailModel('Màu yêu thích?', ['Red', 'Blue', 'Green'],1));
+    surveydetail.add(SurveydetailModel('Màu ghét nhất?', ['Red', 'Blue', 'Green'],3));
+    surveydetail.add(SurveydetailModel('Mùi thích nhất?', ['Red', 'Blue', 'Green'],1));
+    surveydetail.add(SurveydetailModel('Mùi ghét nhất?', ['Red', 'Blue', 'Green'],3));
     return surveydetail;
   }
 
   var isChecked = false.obs;
-  List<bool> checkedStates = [false, false, false];
+
   
-  void toggleCheckbox(index) {
+  void toggleCheckbox() {
     isChecked.value = !isChecked.value;
-    //checkedStates[index] = !checkedStates[index];
   }
 
-  final count = 0.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -40,6 +39,4 @@ class SurveyDetailController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

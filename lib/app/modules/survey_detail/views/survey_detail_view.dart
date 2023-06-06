@@ -94,9 +94,9 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                       itemBuilder: (context, index) {
                       return Obx(() => CheckboxListTile( 
                           title: Text(" ${index+1} . ${surVeydetail.answers![index]} "), 
-                          value: controller.checkedStates[index], 
+                          value: controller.isChecked.value, 
                           onChanged: (value) {
-                            controller.toggleCheckbox(index);
+                            controller.toggleCheckbox();
                           },
                         ),
                       ); 
