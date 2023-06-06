@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../../common/constant.dart';
 import '../../../common/widgets/background.dart';
 import '../controllers/survey_detail_controller.dart';
-
 import '../../../data/models/survey_detail.dart';
 
 class SurveyDetailView extends GetView<SurveyDetailController> {

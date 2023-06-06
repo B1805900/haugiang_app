@@ -1,4 +1,5 @@
 class SurveydetailModel {
+  int? idQuestion;
   String? question;
   int? type;
   List<Map<String, dynamic>>? answers;

@@ -1,48 +1,78 @@
-import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../data/models/survey_detail.dart';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-import '../../../data/models/question.dart';
 
 
 class ApidemoController extends GetxController {
   //TODO: Implement ApidemoController
 
-    final questions = <QuestionModel>[].obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-    fetchQuestions(); // Gọi hàm này để lấy dữ liệu từ API và cập nhật danh sách câu hỏi
+  List<SurveydetailModel> getServeydetail() {
+    List<SurveydetailModel> surveydetail = [];
+     surveydetail.add(SurveydetailModel(
+      'Màu yêu thích?', 
+     [{"answer": "Red", "isCheck": false.obs},
+      {"answer": "Blue", "isCheck": false.obs},
+      {"answer": "Green", "isCheck": false.obs},],1));
+     surveydetail.add(SurveydetailModel(
+      'Màu ghét nhất?', 
+     [{"answer": "Red", "isCheck": false.obs},
+      {"answer": "Blue", "isCheck": false.obs},
+      {"answer": "Green", "isCheck": false.obs},],1));
+    return surveydetail;
   }
 
-    void fetchQuestions() {
-    // Lấy dữ liệu từ API và cập nhật danh sách câu hỏi
-    // Trong ví dụ này, tôi giả định rằng bạn đã sử dụng package http để gọi API
-    // Đảm bảo import package http và có sự kết nối mạng trong thiết bị của bạn
-    // Sau đó, bạn có thể thay đổi phương thức này để phù hợp với API của bạn
-    // Đây chỉ là một ví dụ đơn giản để giúp bạn hiểu cách làm việc
+  var propertyList = <Map<String, dynamic>>[].obs;
+  List<SurveydetailModel> surveyList = [];
 
-    const jsonString =
-        '[{"id_question":"000001","question":"Mức độ công khai của chính quyền địa phương trong các chính sách hỗ trợ người dân, doanh nghiệp.","answers":"Rất không tốt;Không tốt;Bình thường;Tốt;Rất tốt","type":1},'
-        '{"id_question":"000002","question":"Mức độ dễ dàng, thuận tiện trong việc tiếp cận các chính sách ưu đãi của chính quyền địa phương.","answers":"Rất không tốt;Không tốt;Bình thường;Tốt;Rất tốt","type":1}]';
+Future<List<SurveydetailModel>?> fetchData() async {
+  var url = Uri.parse('http://api.ctu-it.com/test.php');
+  try {
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      var jsonDataList = json.decode(jsonString) as List<dynamic>;
 
-    final List<dynamic> jsonList = jsonDecode(jsonString);
+      var fetchedSurveyList = <SurveydetailModel>[];
+      for (var jsonData in jsonDataList) {
+        var question = jsonData['question'] as String;
+        var answers = (jsonData['answers'] as List<dynamic>).cast<String>();
+        var type = jsonData['type'] as int;
 
-    questions.assignAll(jsonList.map((json) {
-      final id = json['id_question'] as String;
-      final question = json['question'] as String;
-      final answers = (json['answers'] as String).split(';');
-      return QuestionModel(id: id, question: question, answers: answers);
-    }).toList());
+        fetchedSurveyList.add(
+          SurveydetailModel(
+            question,
+            answers
+                .map(
+                  (answer) => {'answer': answer, 'isCheck': false.obs},
+                )
+                .toList(),
+            type,
+          ),
+        );
+      }
+      return fetchedSurveyList;
+    } else {
+      print('Lỗi khi gọi API: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Lỗi khi gọi API: $e');
   }
 
-  void toggleSelection(int index, int ansIndex) {
-    final question = questions[index];
-    question.isSelected = !question.isSelected;
-    questions[index] = question;
-  }
+  // Trả về null hoặc giá trị khác để biểu thị lỗi
+  return null;
+}
 
+
+
+
+  var isChecked = false.obs;
+
+  
+  void toggleCheckbox() {
+    isChecked.value = !isChecked.value;
+  }
 
   final count = 0.obs;
 
