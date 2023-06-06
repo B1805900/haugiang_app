@@ -49,7 +49,7 @@ class ApidemoView extends GetView<ApidemoController> {
               // Xử lý khi người dùng nhấn nút Hoàn tất
               // Ví dụ: In ra các câu hỏi và câu trả lời đã chọn
               for (final question in controller.questions) {
-                for (var i = 0; i < 2; i++) {
+                for (var i = 0; i < 5; i++) {
                   // ignore: duplicate_ignore
                   if (question.isSelected) {
                     print('Câu hỏi: ${question.question}');
