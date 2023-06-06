@@ -1,7 +1,7 @@
 class SurveydetailModel {
   String? question;
   int? type;
-  List<String>? answers;
+  List<Map<String, dynamic>>? answers;
 
   SurveydetailModel(
     this.question,

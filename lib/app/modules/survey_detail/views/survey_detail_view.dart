@@ -31,6 +31,7 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
   }
   Widget buildAnswerList(BuildContext context) {
     List<SurveydetailModel> surVeydetail = controller.getServeydetail();
+    RxList<Map<String, dynamic>> selectedAnswers = <Map<String, dynamic>>[].obs;
       return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16),
       child: ListView(
@@ -93,20 +94,36 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                       itemCount: surVeydetail.answers!.length,
                       itemBuilder: (context, index) {
                       return Obx(() => CheckboxListTile( 
-                          title: Text(" ${index+1} . ${surVeydetail.answers![index]} "), 
-                          value: controller.isChecked.value, 
+                          title: Text(" ${index+1} . ${surVeydetail.answers![index]["answer"]} "), 
+                          value: surVeydetail.answers![index]["isCheck"].value,
                           onChanged: (value) {
-                            controller.toggleCheckbox();
+                         //   surVeydetail.answers![index]["isCheck"].obs = !surVeydetail.answers![index]["isCheck"].obs;
+                            surVeydetail.answers![index]["isCheck"].value = !surVeydetail.answers![index]["isCheck"].value;
+                            if (value == true) {
+                              selectedAnswers.add(surVeydetail.answers![index]);
+                            } else {
+                              selectedAnswers.remove(surVeydetail.answers![index]);
+                            }
+                            // ignore: avoid_print
+                            print(surVeydetail.answers![index]["isCheck"]);
                           },
                         ),
                       ); 
                       },
                     ),
                   ),
+                  ElevatedButton(
+                  onPressed: () {
+                    print(selectedAnswers);
+                  },
+                  child: const Text('Lấy dữ liệu'),
+                ),
                 ],
               ),
             ),
+            
           ),
+          
         );
       }).toList()),
     );

@@ -10,10 +10,16 @@ class SurveyDetailController extends GetxController {
   
   List<SurveydetailModel> getServeydetail() {
     List<SurveydetailModel> surveydetail = [];
-    surveydetail.add(SurveydetailModel('Màu yêu thích?', ['Red', 'Blue', 'Green'],1));
-    surveydetail.add(SurveydetailModel('Màu ghét nhất?', ['Red', 'Blue', 'Green'],3));
-    surveydetail.add(SurveydetailModel('Mùi thích nhất?', ['Red', 'Blue', 'Green'],1));
-    surveydetail.add(SurveydetailModel('Mùi ghét nhất?', ['Red', 'Blue', 'Green'],3));
+     surveydetail.add(SurveydetailModel(
+      'Màu yêu thích?', 
+     [{"answer": "Red", "isCheck": false.obs},
+      {"answer": "Blue", "isCheck": false.obs},
+      {"answer": "Green", "isCheck": false.obs},],1));
+     surveydetail.add(SurveydetailModel(
+      'Màu ghét nhất?', 
+     [{"answer": "Red", "isCheck": false.obs},
+      {"answer": "Blue", "isCheck": false.obs},
+      {"answer": "Green", "isCheck": false.obs},],1));
     return surveydetail;
   }
 
