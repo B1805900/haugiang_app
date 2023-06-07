@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import '../../../routes/app_pages.dart';
+import '../../survey_detail/controllers/survey_detail_controller.dart';
 import '../controllers/singin_controller.dart';
 import '../../../common/widgets/custom_textformfield.dart';
 
@@ -324,7 +325,9 @@ class SinginView extends GetView<SinginController> {
                        // controller.cccd = controller.fullnameController.text as int?;
                         print(controller.cccd);
                         print(controller.fullname);
-                        Get.toNamed(Routes.DASHBOARD, arguments: controller.cccd);
+                        final SurveyDetailController myController = Get.put(SurveyDetailController());
+                        myController.cccdNum = controller.cccd;
+                        Get.toNamed(Routes.DASHBOARD);
                       }
                     },
                   child: Container(

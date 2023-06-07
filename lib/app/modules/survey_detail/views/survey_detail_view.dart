@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../../../data/models/result.dart';
 import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../common/constant.dart';
@@ -10,51 +10,57 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
   const SurveyDetailView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Khảo sát số: #${controller.idSurveyNum}'),
         centerTitle: true,
       ),
-    body: Column(
-      children: [
-        Expanded(
-          child: FutureBuilder<Widget>(
-            future: buildAnswerList(context),
-            builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                // Nếu đang kết nối hoặc đang chờ dữ liệu, hiển thị tiêu đề hoặc tiến trình tải
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                // Nếu xảy ra lỗi, hiển thị thông báo lỗi
-                print(snapshot.error);
-                return Center(child: Text('Đã xảy ra lỗi: ${snapshot.error}'));
-              } else {
-                // Nếu có dữ liệu, hiển thị danh sách khảo sát
-                return snapshot.data!;
-              }
-            },
+      body: Column(
+        children: [
+          Expanded(
+            child: FutureBuilder<Widget>(
+              future: buildAnswerList(context),
+              builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // Nếu đang kết nối hoặc đang chờ dữ liệu, hiển thị tiêu đề hoặc tiến trình tải
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  // Nếu xảy ra lỗi, hiển thị thông báo lỗi
+                  print(snapshot.error);
+                  return Center(child: Text('Đã xảy ra lỗi: ${snapshot.error}'));
+                } else {
+                  // Nếu có dữ liệu, hiển thị danh sách khảo sát
+                  return snapshot.data!;
+                }
+              },
+            ),
           ),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            print(controller.selectedAnswers);
-          },
-          child: const Text('Lưu kết quả'),
-        ),
-      ],
-    ),
-  );
-}
+          ElevatedButton(
+            onPressed: () {
+            //  print(controller.selectedAnswers);
+              for (var result in controller.resultList) {
+              print('CCCD: ${result.cccd}');
+              print('ID Survey: ${result.idSurvey}');
+              print('ID Question: ${result.idQuestion}');
+              print('Answer: ${result.answer}');
+              print('---');
+            }
+            },
+            child: const Text('Lưu kết quả'),
+          ),
+        ],
+      ),
+    );
+  }
 
   Future<Widget> buildAnswerList(BuildContext context) async {
    // List<SurveydetailModel> surVeydetail = controller.getServeydetail();
-    controller.selectedAnswers.clear();
+    controller.resultList.clear();
     List<SurveydetailModel>? surVeydetail = await controller.fetchData();
       return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16),
       child: ListView(
-        children: surVeydetail!.map((SurveydetailModel surVeydetail) {
+        children: surVeydetail!.map((final SurveydetailModel surVeydetail) {
         return InkWell(
           onTap: () {
             //  Get.toNamed(Routes.SURVEY_DETAIL);
@@ -119,12 +125,15 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                          //   surVeydetail.answers![index]["isCheck"].obs = !surVeydetail.answers![index]["isCheck"].obs;
                             surVeydetail.answers![index]["isCheck"].value = !surVeydetail.answers![index]["isCheck"].value;
                             if (value == true) {
-                              controller.selectedAnswers.add(surVeydetail.answers![index]);
+                              controller.addResult(
+                                controller.cccdNum.toString(),
+                                controller.idSurveyNum.toString(),
+                                surVeydetail.idQuestion,
+                                surVeydetail.answers![index]["answer"],
+                              );
                             } else {
-                              controller.selectedAnswers.remove(surVeydetail.answers![index]);
+                                controller.resultList.removeWhere((result) => result.idQuestion == surVeydetail.idQuestion && result.answer == surVeydetail.answers![index]["answer"]);
                             }
-                            // ignore: avoid_print
-                            print(surVeydetail.answers![index]["isCheck"]);
                           },
                         ),
                       ); 

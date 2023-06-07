@@ -3,14 +3,24 @@ import 'package:get/get.dart';
 import '../../../data/models/survey_detail.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../../data/models/result.dart';
 
 
 class SurveyDetailController extends GetxController {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-      var cccdNum;
-      var idSurveyNum;
+  var cccdNum;
+  var idSurveyNum;
   //TODO: Implement SurveyDetailController
-  final RxList<Map<String, dynamic>> selectedAnswers = <Map<String, dynamic>>[].obs;
+  final List<ResultModel> resultList = <ResultModel>[];
+  void addResult(String? cccd, String? idSurvey, String? idQuestion, String? answer) {
+      resultList.add(ResultModel(
+        cccd: cccd,
+        idSurvey: idSurvey,
+        idQuestion: idQuestion,
+        answer: answer,
+      ));
+  }
+
   Future<List<SurveydetailModel>?> fetchData() async {
     var url = Uri.parse('http://api.ctu-it.com/API/surveydetail.php?id_survey=$idSurveyNum');
     try {
