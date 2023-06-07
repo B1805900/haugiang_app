@@ -42,7 +42,6 @@ class DashboardView extends GetView<DashboardController> {
     }
   Future<Widget> buildSurveyList(BuildContext context) async {
   List<SurveyModel> surveyList = await controller.fetchData();
-
   if (surveyList.isEmpty) {
     return Padding(
       padding: const EdgeInsets.only(top: 24),

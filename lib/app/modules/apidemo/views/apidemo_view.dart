@@ -12,13 +12,16 @@ import '../controllers/apidemo_controller.dart';
 class ApidemoView extends GetView<ApidemoController> {
   const ApidemoView({Key? key}) : super(key: key);
  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Test'),
-        centerTitle: true,
-      ),
-        body: FutureBuilder<Widget>(
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Test'),
+      centerTitle: true,
+    ),
+    body: Column(
+      children: [
+        Expanded(
+          child: FutureBuilder<Widget>(
             future: buildAnswerList(context),
             builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -34,12 +37,22 @@ class ApidemoView extends GetView<ApidemoController> {
               }
             },
           ),
-    );
-  }
+        ),
+        ElevatedButton(
+          onPressed: () {
+            print(controller.selectedAnswers);
+          },
+          child: const Text('Xem kết quả'),
+        ),
+      ],
+    ),
+  );
+}
+
   Future<Widget> buildAnswerList(BuildContext context) async {
    // List<SurveydetailModel> surVeydetail = controller.getServeydetail();
+    controller.selectedAnswers.clear();
     List<SurveydetailModel>? surVeydetail = await controller.fetchData();
-    RxList<Map<String, dynamic>> selectedAnswers = <Map<String, dynamic>>[].obs;
       return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16),
       child: ListView(
@@ -108,9 +121,9 @@ class ApidemoView extends GetView<ApidemoController> {
                          //   surVeydetail.answers![index]["isCheck"].obs = !surVeydetail.answers![index]["isCheck"].obs;
                             surVeydetail.answers![index]["isCheck"].value = !surVeydetail.answers![index]["isCheck"].value;
                             if (value == true) {
-                              selectedAnswers.add(surVeydetail.answers![index]);
+                              controller.selectedAnswers.add(surVeydetail.answers![index]);
                             } else {
-                              selectedAnswers.remove(surVeydetail.answers![index]);
+                              controller.selectedAnswers.remove(surVeydetail.answers![index]);
                             }
                             // ignore: avoid_print
                             print(surVeydetail.answers![index]["isCheck"]);
@@ -120,18 +133,10 @@ class ApidemoView extends GetView<ApidemoController> {
                       },
                     ),
                   ),
-                  ElevatedButton(
-                  onPressed: () {
-                    print(selectedAnswers);
-                  },
-                  child: const Text('Lấy dữ liệu'),
-                ),
                 ],
               ),
             ),
-            
           ),
-          
         );
       }).toList()),
     );

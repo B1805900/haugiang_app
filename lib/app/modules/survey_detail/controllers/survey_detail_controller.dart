@@ -7,27 +7,42 @@ import 'package:http/http.dart' as http;
 class SurveyDetailController extends GetxController {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   //TODO: Implement SurveyDetailController
-  
-  List<SurveydetailModel> getServeydetail() {
-    List<SurveydetailModel> surveydetail = [];
-     surveydetail.add(SurveydetailModel(
-      'Màu yêu thích?', 
-     [{"answer": "Red", "isCheck": false.obs},
-      {"answer": "Blue", "isCheck": false.obs},
-      {"answer": "Green", "isCheck": false.obs},],1));
-     surveydetail.add(SurveydetailModel(
-      'Màu ghét nhất?', 
-     [{"answer": "Red", "isCheck": false.obs},
-      {"answer": "Blue", "isCheck": false.obs},
-      {"answer": "Green", "isCheck": false.obs},],1));
-    return surveydetail;
-  }
+  final RxList<Map<String, dynamic>> selectedAnswers = <Map<String, dynamic>>[].obs;
+  Future<List<SurveydetailModel>?> fetchData() async {
+    var url = Uri.parse('http://api.ctu-it.com/API/surveydetail.php');
+    try {
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        var jsonString = response.body;
+        var jsonDataList = json.decode(jsonString) as List<dynamic>;
+        var fetchedSurveyList = <SurveydetailModel>[];
+        for (var jsonData in jsonDataList) {
+          var question = jsonData['question'] as String;
+          var answers = (jsonData['answers'] as List<dynamic>).cast<String>();
+          var type = jsonData['type'] as int;
 
-  var isChecked = false.obs;
+          fetchedSurveyList.add(
+            SurveydetailModel(
+              question,
+              answers
+                  .map(
+                    (answer) => {'answer': answer, 'isCheck': false.obs},
+                  )
+                  .toList(),
+              type,
+            ),
+          );
+        }
+        return fetchedSurveyList;
+      } else {
+        print('Lỗi khi gọi API: ${response.statusCode}');
+      }
+      } catch (e) {
+        print('Lỗi khi gọi API: $e');
+      }
 
-  
-  void toggleCheckbox() {
-    isChecked.value = !isChecked.value;
+      // Trả về null hoặc giá trị khác để biểu thị lỗi
+      return null;
   }
 
 

@@ -17,24 +17,45 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
         title: Text('$data'),
         centerTitle: true,
       ),
-        body: Stack(
-          children: [
-            Background(height: Get.size.height),
-            Padding(
-              padding: const EdgeInsets.only(top: 24),
-              child: buildAnswerList(context),
-            ),
-          ],
+    body: Column(
+      children: [
+        Expanded(
+          child: FutureBuilder<Widget>(
+            future: buildAnswerList(context),
+            builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // Nếu đang kết nối hoặc đang chờ dữ liệu, hiển thị tiêu đề hoặc tiến trình tải
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                // Nếu xảy ra lỗi, hiển thị thông báo lỗi
+                print(snapshot.error);
+                return Center(child: Text('Đã xảy ra lỗi: ${snapshot.error}'));
+              } else {
+                // Nếu có dữ liệu, hiển thị danh sách khảo sát
+                return snapshot.data!;
+              }
+            },
+          ),
         ),
-    );
-  }
-  Widget buildAnswerList(BuildContext context) {
-    List<SurveydetailModel> surVeydetail = controller.getServeydetail();
-    RxList<Map<String, dynamic>> selectedAnswers = <Map<String, dynamic>>[].obs;
+        ElevatedButton(
+          onPressed: () {
+            print(controller.selectedAnswers);
+          },
+          child: const Text('Xem kết quả'),
+        ),
+      ],
+    ),
+  );
+}
+
+  Future<Widget> buildAnswerList(BuildContext context) async {
+   // List<SurveydetailModel> surVeydetail = controller.getServeydetail();
+    controller.selectedAnswers.clear();
+    List<SurveydetailModel>? surVeydetail = await controller.fetchData();
       return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16),
       child: ListView(
-        children: surVeydetail.map((SurveydetailModel surVeydetail) {
+        children: surVeydetail!.map((SurveydetailModel surVeydetail) {
         return InkWell(
           onTap: () {
             //  Get.toNamed(Routes.SURVEY_DETAIL);
@@ -65,7 +86,7 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                           width: Get.width * 0.7,
                           child: Text(
                             "Câu hỏi: ${surVeydetail.question}",
-                              maxLines: 1,
+                              maxLines: 10,
                               overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                                 fontSize: 16, color: Colors.black),
@@ -99,9 +120,9 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                          //   surVeydetail.answers![index]["isCheck"].obs = !surVeydetail.answers![index]["isCheck"].obs;
                             surVeydetail.answers![index]["isCheck"].value = !surVeydetail.answers![index]["isCheck"].value;
                             if (value == true) {
-                              selectedAnswers.add(surVeydetail.answers![index]);
+                              controller.selectedAnswers.add(surVeydetail.answers![index]);
                             } else {
-                              selectedAnswers.remove(surVeydetail.answers![index]);
+                              controller.selectedAnswers.remove(surVeydetail.answers![index]);
                             }
                             // ignore: avoid_print
                             print(surVeydetail.answers![index]["isCheck"]);
@@ -111,18 +132,10 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                       },
                     ),
                   ),
-                  ElevatedButton(
-                  onPressed: () {
-                    print(selectedAnswers);
-                  },
-                  child: const Text('Lấy dữ liệu'),
-                ),
                 ],
               ),
             ),
-            
           ),
-          
         );
       }).toList()),
     );

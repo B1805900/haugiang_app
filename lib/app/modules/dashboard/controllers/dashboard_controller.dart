@@ -5,15 +5,10 @@ import '../../../data/models/survey.dart';
 import 'package:http/http.dart' as http;
 
 class DashboardController extends GetxController {
-  
-
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  var propertyList = <Map<String, dynamic>>[].obs;
-  List<SurveyModel> surveyList = [];
-  
   Future<List<SurveyModel>> fetchData() async {
+    var propertyList = <Map<String, dynamic>>[].obs;
+    List<SurveyModel> surveyList = [];
     var url = Uri.parse('http://api.ctu-it.com/survey.php');
     try {
       var response = await http.get(url);
@@ -45,13 +40,7 @@ class DashboardController extends GetxController {
   }
 
   //TODO: Implement DashboardController
-    List<SurveyModel> getSurveyList() {
-    List<SurveyModel> surveyList = [];
-    surveyList.add(SurveyModel('ID Khảo sát', 'Tên Khảo sát', 'Thời gian tạo', 'Thời gian kết thúc', 'ID người tạo'));
-    surveyList.add(SurveyModel('#00001', 'Đánh giá thủ tục làm CCCD', '27/05/2023', '27/06/2023', '003'));
-    return surveyList;
-  }
-  final count = 0.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -67,5 +56,4 @@ class DashboardController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
 }
