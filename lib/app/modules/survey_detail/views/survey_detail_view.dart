@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../common/constant.dart';
-import '../../../common/widgets/background.dart';
 import '../controllers/survey_detail_controller.dart';
 import '../../../data/models/survey_detail.dart';
 
@@ -14,7 +13,7 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Khảo sát số: #${controller.data}'),
+        title: Text('Khảo sát số: #${controller.idSurveyNum}'),
         centerTitle: true,
       ),
     body: Column(

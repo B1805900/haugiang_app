@@ -24,7 +24,7 @@ class SinginController extends GetxController {
       selectedOption.value = option;
     }
 
-    RxString fullname = ''.obs;
+    String? fullname;
     int? cccd;
     int? phone;
     String? email;

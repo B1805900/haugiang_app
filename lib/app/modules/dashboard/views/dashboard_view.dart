@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../common/constant.dart';
-import '../../../common/widgets/background.dart';
 import '../../../common/widgets/custom_appbar.dart';
 import '../../../data/models/survey.dart';
 import '../../../routes/app_pages.dart';
+import '../../survey_detail/controllers/survey_detail_controller.dart';
 import '../controllers/dashboard_controller.dart';
 
 import 'constants.dart';
@@ -55,7 +55,11 @@ class DashboardView extends GetView<DashboardController> {
         children: surveyList.map((survey) {
           return InkWell(
             onTap: () {
-              Get.toNamed(Routes.SURVEY_DETAIL, arguments: survey.idSurvey);
+          //    Get.toNamed(Routes.SURVEY_DETAIL, arguments: survey.idSurvey);
+            //  final myController = Get.find<SurveyDetailController()>;
+              final SurveyDetailController myController = Get.put(SurveyDetailController());
+              myController.idSurveyNum = survey.idSurvey;
+              Get.toNamed(Routes.SURVEY_DETAIL);
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 8),

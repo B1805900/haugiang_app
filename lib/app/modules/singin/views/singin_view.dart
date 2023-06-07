@@ -59,7 +59,7 @@ class SinginView extends GetView<SinginController> {
                     return null;
                   },
                   onSaved: (value) {
-                    controller.fullnameController.text = value ?? '';
+                    controller.fullname = value ?? '';
                   },
                 ),
                 const SizedBox(height: 10),
@@ -209,18 +209,22 @@ class SinginView extends GetView<SinginController> {
                                 color: Colors.grey,
                               )),
                     const SizedBox(width: 20),
-                    Obx(() => DropdownButton<String>(
-                      value: controller.selectedOption.value,
-                      onChanged: (String? newValue) {
-                        controller.changeOption(newValue!);
-                      },
-                      items: <String>['Nam', 'Nữ', 'Khác']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
+                    // ignore: sized_box_for_whitespace
+                    Obx(() => Container(
+                      width: 85, // Giới hạn chiều ngang của Container
+                      child: DropdownButton<String>(
+                        value: controller.selectedOption.value,
+                        onChanged: (String? newValue) {
+                          controller.changeOption(newValue!);
+                        },
+                        items: <String>['Nam', 'Nữ', 'Khác']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
                     )),
                     const SizedBox(width: 10),
                     const Text('Tuổi:',
@@ -306,8 +310,7 @@ class SinginView extends GetView<SinginController> {
                       ),
                   ],
                 ),
-                const SizedBox(height: 30),  
-                Obx(() => Text(controller.fullname.value)),              
+                const SizedBox(height: 10),              
                 InkWell(
                     onTap: () {
                       // Hàm xử lý sự kiện khi người dùng nhấn vào InkWell
@@ -320,6 +323,8 @@ class SinginView extends GetView<SinginController> {
                         controller.formKey.currentState!.save(); // Gọi hàm onSaved của TextFormField
                        // controller.cccd = controller.fullnameController.text as int?;
                         print(controller.cccd);
+                        print(controller.fullname);
+                        Get.toNamed(Routes.DASHBOARD, arguments: controller.cccd);
                       }
                     },
                   child: Container(
@@ -342,7 +347,7 @@ class SinginView extends GetView<SinginController> {
               ],
             ),
           ),
-          const SizedBox(height: 10),
+          //const SizedBox(height: 10),
           // InkWell(
           //   onTap: () => Get.toNamed(Routes.QRSCANER),
           //   child: TextButton(

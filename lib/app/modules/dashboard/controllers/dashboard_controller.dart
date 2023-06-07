@@ -4,8 +4,10 @@ import 'dart:convert';
 import '../../../data/models/survey.dart';
 import 'package:http/http.dart' as http;
 
+
 class DashboardController extends GetxController {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final cccd = Get.arguments;
   Future<List<SurveyModel>> fetchData() async {
     var propertyList = <Map<String, dynamic>>[].obs;
     List<SurveyModel> surveyList = [];
