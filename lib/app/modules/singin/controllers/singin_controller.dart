@@ -5,13 +5,26 @@ import 'package:get/get.dart';
 class SinginController extends GetxController {
   //TODO: Implement SinginController
     final formKey = GlobalKey<FormState>();
-    var selectedOption = 'Nam'.obs;
+    final TextEditingController fullnameController = TextEditingController();
+    final TextEditingController ccccController = TextEditingController();
+    final TextEditingController phoneController = TextEditingController();
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController adressController = TextEditingController();
+    final TextEditingController ageController = TextEditingController();
+    final TextEditingController genderController = TextEditingController();
+    final TextEditingController nationController = TextEditingController();
+    final TextEditingController educationController = TextEditingController();
+    final TextEditingController numpeopleController = TextEditingController();
+    final TextEditingController numfemaleController = TextEditingController();
+    final TextEditingController jobController = TextEditingController();
+    final TextEditingController incomeController = TextEditingController();
 
+    var selectedOption = 'Nam'.obs;
     void changeOption(String option) {
       selectedOption.value = option;
     }
 
-    String? fullname;
+    RxString fullname = ''.obs;
     int? cccd;
     int? phone;
     String? email;
@@ -26,7 +39,6 @@ class SinginController extends GetxController {
     int? income;
     String? usedservice;
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -42,7 +54,7 @@ class SinginController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+
 
   Future<void> handleSignIn(BuildContext context) async {
     // ignore: avoid_print

@@ -14,25 +14,24 @@ class SinginView extends GetView<SinginController> {
         title: const Text('Thông tin cá nhân'),
         centerTitle: true,
       ),
-body: Container(
-  color: const Color.fromARGB(255, 216, 237, 237),
-  padding: const EdgeInsets.symmetric(vertical: 10.0),
-  child: SingleChildScrollView(
-    child: Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // ...Các phần tử khác
-          _buildLoginForm(context),
-        ],
+      body: Container(
+        color: const Color.fromARGB(255, 216, 237, 237),
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: SingleChildScrollView(
+          child: Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // ...Các phần tử khác
+                _buildLoginForm(context),
+              ],
+            ),
+          ),
+        ),
       ),
-    ),
-  ),
-),
-
-
     );
   }
+  
   Form _buildLoginForm(BuildContext context) {
     return Form(
       key: controller.formKey,
@@ -47,36 +46,38 @@ body: Container(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextFormField(
+                  controller: controller.fullnameController,
                   keyboardType: TextInputType.text,
                   decoration: buildDecorationTextFormField(
                       hintText: 'Họ tên...', icon: Icons.drive_file_rename_outline),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Họ tên không được rỗng";
-                    } else if (!GetUtils.isNum(value)) {
+                    } else if (value.length <= 3) {
                       return "Vui lòng nhập họ tên hợp lệ";
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    controller.fullname = "Phan Bảo Nhân";
+                    controller.fullnameController.text = value ?? '';
                   },
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                  controller: controller.ccccController,
                   keyboardType: TextInputType.number,
                   decoration: buildDecorationTextFormField(
                       hintText: 'Số CCCD...', icon: Icons.recent_actors),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Số CCCD không được rỗng";
-                    } else if (!GetUtils.isNum(value)) {
-                      return "Vui lòng nhập số CCCD hợp lệ";
+                      return 'Vui lòng nhập số Căn cước công dân';
+                    } else if (value.length != 12) {
+                      return 'Số căn cước phải có đúng 12 số';
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    controller.cccd = value as int?;
+                    controller.cccd = int.tryParse(value ?? '');
                   },
                 ),
                 const SizedBox(height: 10),
@@ -93,7 +94,7 @@ body: Container(
                     return null;
                   },
                   onSaved: (value) {
-                    controller.phone = value as int?;
+                    controller.phone = int.tryParse(value ?? '');
                   },
                 ),
                 const SizedBox(height: 10),
@@ -138,7 +139,7 @@ body: Container(
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Học vấn không được rỗng";
-                    } else if (!GetUtils.isNum(value)) {
+                    } else if (value.length < 2) {
                       return "Vui lòng nhập học vấn hợp lệ";
                     }
                     return null;
@@ -154,9 +155,9 @@ body: Container(
                   hintText: 'Dân tộc...', icon: Icons.pix),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Số điện thoại không được rỗng";
-                    } else if (!GetUtils.isNum(value)) {
-                      return "Vui lòng nhập số điện thoại hợp lệ";
+                      return "Dân tộc không được rỗng";
+                    } else if (value.length < 3) {
+                      return "Vui lòng nhập tên dân tộc hợp lệ";
                     }
                     return null;
                   },
@@ -172,7 +173,7 @@ body: Container(
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Nghề nghiệp không được rỗng";
-                    } else if (!GetUtils.isNum(value)) {
+                    } else if (value.length < 2) {
                       return "Vui lòng nhập nghề nghiệp hợp lệ";
                     }
                     return null;
@@ -195,7 +196,7 @@ body: Container(
                     return null;
                   },
                   onSaved: (value) {
-                    controller.income = value as int?;
+                    controller.income = int.tryParse(value ?? '');
                   },
                 ),
                 const SizedBox(height: 15),
@@ -233,7 +234,7 @@ body: Container(
                         child: TextFormField(
                           keyboardType: TextInputType.number,
                           decoration: buildDecorationTextFormField(
-                          hintText: '...'),
+                          hintText: '.'),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Tuổi không được rỗng";
@@ -243,7 +244,7 @@ body: Container(
                             return null;
                           },
                           onSaved: (value) {
-                            controller.age = value as int?;
+                            controller.age = int.tryParse(value ?? '');
                           },
                         ),
                       ),
@@ -263,7 +264,7 @@ body: Container(
                         child: TextFormField(
                           keyboardType: TextInputType.number,
                           decoration: buildDecorationTextFormField(
-                          hintText: '...'),
+                          hintText: '.'),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Số nhân khẩu không được rỗng";
@@ -273,7 +274,7 @@ body: Container(
                             return null;
                           },
                           onSaved: (value) {
-                            controller.numpeople = value as int?;
+                            controller.numpeople = int.tryParse(value ?? '');
                           },
                         ),
                       ),
@@ -289,7 +290,7 @@ body: Container(
                         child: TextFormField(
                           keyboardType: TextInputType.number,
                           decoration: buildDecorationTextFormField(
-                          hintText: '...'),
+                          hintText: '.'),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Số thành viên nữ không được rỗng";
@@ -299,15 +300,28 @@ body: Container(
                             return null;
                           },
                           onSaved: (value) {
-                            controller.numfemale = value as int?;
+                            controller.numfemale = int.tryParse(value ?? '');
                           },
                         ),
                       ),
                   ],
                 ),
-                const SizedBox(height: 30),                
+                const SizedBox(height: 30),  
+                Obx(() => Text(controller.fullname.value)),              
                 InkWell(
-                  onTap: () => Get.toNamed(Routes.DASHBOARD),
+                    onTap: () {
+                      // Hàm xử lý sự kiện khi người dùng nhấn vào InkWell
+                          if (controller.formKey.currentState!.validate()) {
+                        // If the form is valid, display a snackbar. In the real world,
+                        // you'd often call a server or save the information in a database.
+                        // ScaffoldMessenger.of(context).showSnackBar(
+                        //   const SnackBar(content: Text('Processing Data')),
+                        // );
+                        controller.formKey.currentState!.save(); // Gọi hàm onSaved của TextFormField
+                       // controller.cccd = controller.fullnameController.text as int?;
+                        print(controller.cccd);
+                      }
+                    },
                   child: Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(vertical: 14),
