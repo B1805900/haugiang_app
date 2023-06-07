@@ -6,10 +6,11 @@ import 'package:http/http.dart' as http;
 
 class SurveyDetailController extends GetxController {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  var data = Get.arguments;
   //TODO: Implement SurveyDetailController
   final RxList<Map<String, dynamic>> selectedAnswers = <Map<String, dynamic>>[].obs;
   Future<List<SurveydetailModel>?> fetchData() async {
-    var url = Uri.parse('http://api.ctu-it.com/API/surveydetail.php');
+    var url = Uri.parse('http://api.ctu-it.com/API/surveydetail.php?id_survey=$data');
     try {
       var response = await http.get(url);
       if (response.statusCode == 200) {
@@ -17,6 +18,7 @@ class SurveyDetailController extends GetxController {
         var jsonDataList = json.decode(jsonString) as List<dynamic>;
         var fetchedSurveyList = <SurveydetailModel>[];
         for (var jsonData in jsonDataList) {
+          var idQuestion = jsonData['id_question'] as String;
           var question = jsonData['question'] as String;
           var answers = (jsonData['answers'] as List<dynamic>).cast<String>();
           var type = jsonData['type'] as int;
@@ -30,6 +32,7 @@ class SurveyDetailController extends GetxController {
                   )
                   .toList(),
               type,
+              idQuestion,
             ),
           );
         }

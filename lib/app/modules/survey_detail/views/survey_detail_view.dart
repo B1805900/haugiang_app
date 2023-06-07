@@ -11,10 +11,10 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
   const SurveyDetailView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    var data = Get.arguments;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('$data'),
+        title: Text('Khảo sát số: #${controller.data}'),
         centerTitle: true,
       ),
     body: Column(
@@ -41,7 +41,7 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
           onPressed: () {
             print(controller.selectedAnswers);
           },
-          child: const Text('Xem kết quả'),
+          child: const Text('Lưu kết quả'),
         ),
       ],
     ),

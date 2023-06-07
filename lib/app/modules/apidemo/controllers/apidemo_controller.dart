@@ -21,6 +21,7 @@ Future<List<SurveydetailModel>?> fetchData() async {
 
       var fetchedSurveyList = <SurveydetailModel>[];
       for (var jsonData in jsonDataList) {
+        var idQuestion = jsonData['id_question'] as String;
         var question = jsonData['question'] as String;
         var answers = (jsonData['answers'] as List<dynamic>).cast<String>();
         var type = jsonData['type'] as int;
@@ -34,6 +35,7 @@ Future<List<SurveydetailModel>?> fetchData() async {
                 )
                 .toList(),
             type,
+            idQuestion,
           ),
         );
       }

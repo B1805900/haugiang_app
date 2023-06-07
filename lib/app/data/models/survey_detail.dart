@@ -1,5 +1,5 @@
 class SurveydetailModel {
-  int? idQuestion;
+  String? idQuestion;
   String? question;
   int? type;
   List<Map<String, dynamic>>? answers;
@@ -8,5 +8,6 @@ class SurveydetailModel {
     this.question,
     this.answers,
     this.type,
+    this.idQuestion,
   );
 }
