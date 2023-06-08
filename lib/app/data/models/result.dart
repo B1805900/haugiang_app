@@ -7,4 +7,14 @@ class ResultModel {
     this.idQuestion,
     this.answer,
   });
+
+    // Phương thức toJson để chuyển đối tượng thành Map
+  Map<String, dynamic> toJson() {
+    return {
+      'cccd': cccd,
+      'idSurvey': idSurvey,
+      'idQuestion': idQuestion,
+      'answer': answer,
+    };
+  }
 }

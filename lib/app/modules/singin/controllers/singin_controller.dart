@@ -25,8 +25,8 @@ class SinginController extends GetxController {
     }
 
     String? fullname;
-    int? cccd;
-    int? phone;
+    String? cccd;
+    String? phone;
     String? email;
     String? address;
     int? age;
@@ -42,6 +42,19 @@ class SinginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    fullnameController.text = "";
+    ccccController.text = "";
+    phoneController.text = "";
+    emailController.text = "";
+    adressController.text = "";
+    ageController.text = "";
+    genderController.text = "";
+    nationController.text = "";
+    educationController.text = "";
+    numpeopleController.text = "";
+    numfemaleController.text = "";
+    jobController.text = "";
+    incomeController.text = "";
   }
 
   @override

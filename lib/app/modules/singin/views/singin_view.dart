@@ -78,7 +78,7 @@ class SinginView extends GetView<SinginController> {
                     return null;
                   },
                   onSaved: (value) {
-                    controller.cccd = int.tryParse(value ?? '');
+                    controller.cccd = value ?? '';
                   },
                 ),
                 const SizedBox(height: 10),
@@ -95,7 +95,7 @@ class SinginView extends GetView<SinginController> {
                     return null;
                   },
                   onSaved: (value) {
-                    controller.phone = int.tryParse(value ?? '');
+                    controller.phone = value ?? '';
                   },
                 ),
                 const SizedBox(height: 10),

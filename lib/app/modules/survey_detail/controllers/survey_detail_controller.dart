@@ -60,6 +60,91 @@ class SurveyDetailController extends GetxController {
       return null;
   }
 
+  void sendDataToAPI(List<ResultModel> resultList) async {
+  // Tạo danh sách các đối tượng ResultModel thành danh sách Map
+  List<Map<String, dynamic>> resultsData = resultList.map((result) => result.toJson()).toList();
+  
+  // Tạo request body từ danh sách Map
+  Map<String, dynamic> requestBody = {'results': resultsData};
+  
+  // Chuyển đổi request body thành chuỗi JSON
+  String requestBodyJson = json.encode(requestBody);
+  
+  // Tạo request POST
+  var response = await http.post(
+    Uri.parse('http://api.ctu-it.com/API/saveResult.php'),
+    headers: {'Content-Type': 'application/json'},
+    body: requestBodyJson,
+  );
+      if (response.statusCode == 200) {
+      if (response.body.isNotEmpty) {
+      var responseData = jsonDecode(response.body);
+        var status = responseData[0]['status'];
+          if (status == 'success') {
+          // Xử lý thành công
+            print('Luu CSLD Ok LIST');
+            Get.snackbar(
+              'Lưu kết quả thành công', // Tiêu đề thông báo
+              'Xin cảm ơn!', // Nội dung thông báo
+              backgroundColor: Colors.green,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.BOTTOM,
+              duration: Duration(seconds: 2),
+            );
+            await Future.delayed(const Duration(seconds: 4));
+            // Chuyển về trang trước đó
+            Get.back();
+          } else {
+            // Xử lý lỗi
+            print(responseData[0]);
+            Get.snackbar(
+              'Lỗi lưu dữ liệu', // Tiêu đề thông báo
+              'Vui lòng thử lại', // Nội dung thông báo
+              backgroundColor: Colors.red,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.BOTTOM,
+              duration: Duration(seconds: 2),
+            );
+          }
+      } else {
+        // Xử lý lỗi: phản hồi rỗng
+        print('Empty response');
+      }
+    } else {
+      // Xử lý lỗi: mã trạng thái không phải 200
+      print('Error: ${response.statusCode}');
+    }
+  
+  // // Kiểm tra response từ server
+  // if (response.statusCode == 200) {
+  //   // Xử lý response thành công
+  //   print('Data sent successfully');
+  //     Get.snackbar(
+  //     'Success', // Tiêu đề thông báo
+  //     'Data sent successfully', // Nội dung thông báo
+  //     backgroundColor: Colors.green,
+  //     colorText: Colors.white,
+  //     snackPosition: SnackPosition.BOTTOM,
+  //     duration: Duration(seconds: 2),
+  //   );
+  //   await Future.delayed(const Duration(seconds: 4));
+  //   // Chuyển về trang trước đó
+  //   Get.back();
+  // } else {
+  //   // Xử lý response lỗi
+  //   print('Error sending data');
+  //   Get.snackbar(
+  //       'Error', // Tiêu đề thông báo
+  //       'Error sending data', // Nội dung thông báo
+  //       backgroundColor: Colors.red,
+  //       colorText: Colors.white,
+  //       snackPosition: SnackPosition.BOTTOM,
+  //       duration: Duration(seconds: 2),
+  //     );
+  // }
+}
+
+
 
   @override
   void onInit() {

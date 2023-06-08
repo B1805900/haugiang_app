@@ -45,6 +45,7 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
               print('Answer: ${result.answer}');
               print('---');
             }
+            controller.sendDataToAPI(controller.resultList);
             },
             child: const Text('Lưu kết quả'),
           ),
