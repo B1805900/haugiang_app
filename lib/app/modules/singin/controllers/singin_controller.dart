@@ -41,19 +41,6 @@ class SinginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fullnameController.text = "";
-    ccccController.text = "";
-    phoneController.text = "";
-    emailController.text = "";
-    adressController.text = "";
-    ageController.text = "";
-    genderController.text = "";
-    nationController.text = "";
-    educationController.text = "";
-    numpeopleController.text = "";
-    numfemaleController.text = "";
-    jobController.text = "";
-    incomeController.text = "";
   }
 
   @override
@@ -64,19 +51,6 @@ class SinginController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    fullnameController.clear();
-    ccccController.clear();
-    phoneController.clear();
-    emailController.clear();
-    adressController.clear();
-    ageController.clear();
-    genderController.clear();
-    nationController.clear();
-    educationController.clear();
-    numpeopleController.clear();
-    numfemaleController.clear();
-    jobController.clear();
-    incomeController.clear();
   }
 
 

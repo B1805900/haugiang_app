@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import '../../../routes/app_pages.dart';
 import '../../survey_detail/controllers/survey_detail_controller.dart';
@@ -335,7 +334,7 @@ class SinginView extends GetView<SinginController> {
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      color: Color.fromARGB(255, 80, 236, 100),
+                      color: const Color.fromARGB(255, 80, 236, 100),
                     ),
                     child: const Text(
                       'Tiếp tục',
@@ -350,36 +349,36 @@ class SinginView extends GetView<SinginController> {
               ],
             ),
           ),
-          //const SizedBox(height: 10),
-          // InkWell(
-          //   onTap: () => Get.toNamed(Routes.QRSCANER),
-          //   child: TextButton(
-          //     onPressed: () {
-          //       Get.toNamed(Routes.QRSCANER);
-          //     },
-          //     child: const Text('Tiếp tục bằng QR CCCD',
-          //         style: TextStyle(
-          //           fontSize: 17,
-          //           fontWeight: FontWeight.w600,
-          //           color: Colors.grey,
-          //         )),
-          //   ),
-          // ),
-          // const SizedBox(height: 10),
-          // InkWell(
-          //   onTap: () => Get.toNamed(Routes.APIDEMO),
-          //   child: TextButton(
-          //     onPressed: () {
-          //       Get.toNamed(Routes.APIDEMO);
-          //     },
-          //     child: const Text('Test API',
-          //         style: TextStyle(
-          //           fontSize: 17,
-          //           fontWeight: FontWeight.w600,
-          //           color: Colors.grey,
-          //         )),
-          //   ),
-          // ),
+          const SizedBox(height: 10),
+          InkWell(
+            onTap: () => Get.toNamed(Routes.QRSCANER),
+            child: TextButton(
+              onPressed: () {
+                Get.toNamed(Routes.QRSCANER);
+              },
+              child: const Text('Tiếp tục bằng QR CCCD',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey,
+                  )),
+            ),
+          ),
+          const SizedBox(height: 10),
+          InkWell(
+            onTap: () => Get.toNamed(Routes.APIDEMO),
+            child: TextButton(
+              onPressed: () {
+                Get.toNamed(Routes.APIDEMO);
+              },
+              child: const Text('Test API',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey,
+                  )),
+            ),
+          ),
         ],
       ),
       ),
