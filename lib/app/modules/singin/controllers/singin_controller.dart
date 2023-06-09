@@ -65,6 +65,19 @@ class SinginController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    fullnameController.clear();
+    ccccController.clear();
+    phoneController.clear();
+    emailController.clear();
+    adressController.clear();
+    ageController.clear();
+    genderController.clear();
+    nationController.clear();
+    educationController.clear();
+    numpeopleController.clear();
+    numfemaleController.clear();
+    jobController.clear();
+    incomeController.clear();
   }
 
 
