@@ -335,7 +335,7 @@ class SinginView extends GetView<SinginController> {
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      color: const Color.fromARGB(255, 189, 223, 89),
+                      color: Color.fromARGB(255, 80, 236, 100),
                     ),
                     child: const Text(
                       'Tiếp tục',

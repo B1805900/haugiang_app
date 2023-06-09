@@ -82,7 +82,7 @@ class SurveyDetailController extends GetxController {
         var status = responseData[0]['status'];
           if (status == 'success') {
           // Xử lý thành công
-            print('Luu CSLD Ok LIST');
+            print('Luu CSLD Thành công');
             Get.snackbar(
               'Lưu kết quả thành công', // Tiêu đề thông báo
               'Xin cảm ơn!', // Nội dung thông báo
