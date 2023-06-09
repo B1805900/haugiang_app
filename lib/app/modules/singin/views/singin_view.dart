@@ -209,7 +209,10 @@ class SinginView extends GetView<SinginController> {
                                 color: Colors.grey,
                               )),
                     const SizedBox(width: 20),
-                    DropdownButton<String>(
+                    // ignore: sized_box_for_whitespace
+                    Obx(() => Container(
+                      width: 85, // Giới hạn chiều ngang của Container
+                      child: DropdownButton<String>(
                         value: controller.selectedOption.value,
                         onChanged: (String? newValue) {
                           controller.changeOption(newValue!);
@@ -221,8 +224,8 @@ class SinginView extends GetView<SinginController> {
                             child: Text(value),
                           );
                         }).toList(),
-                      
-                    ),
+                      ),
+                    )),
                     const SizedBox(width: 10),
                     const Text('Tuổi:',
                               style: TextStyle(
