@@ -322,9 +322,7 @@ class SinginView extends GetView<SinginController> {
                         // );
                         controller.formKey.currentState!.save(); // Gọi hàm onSaved của TextFormField
                        // controller.cccd = controller.fullnameController.text as int?;
-                        print(controller.cccd);
-                        print(controller.fullname);
-                        final SurveyDetailController myController = Get.put(SurveyDetailController());
+                        SurveyDetailController myController = Get.put(SurveyDetailController());
                         myController.cccdNum = controller.cccd;
                         Get.toNamed(Routes.DASHBOARD);
                       }
