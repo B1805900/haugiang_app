@@ -315,13 +315,7 @@ class SinginView extends GetView<SinginController> {
                     onTap: () {
                       // Hàm xử lý sự kiện khi người dùng nhấn vào InkWell
                           if (controller.formKey.currentState!.validate()) {
-                        // If the form is valid, display a snackbar. In the real world,
-                        // you'd often call a server or save the information in a database.
-                        // ScaffoldMessenger.of(context).showSnackBar(
-                        //   const SnackBar(content: Text('Processing Data')),
-                        // );
                         controller.formKey.currentState!.save(); // Gọi hàm onSaved của TextFormField
-                       // controller.cccd = controller.fullnameController.text as int?;
                         SurveyDetailController myController = Get.put(SurveyDetailController());
                         myController.cccdNum = controller.cccd;
                         Get.toNamed(Routes.DASHBOARD);
