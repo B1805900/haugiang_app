@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../data/models/survey_detail.dart';
 import 'dart:convert';
@@ -6,7 +5,6 @@ import 'package:http/http.dart' as http;
 
 
 class ApidemoController extends GetxController {
-  //TODO: Implement ApidemoController
   final RxList<Map<String, dynamic>> selectedAnswers = <Map<String, dynamic>>[].obs;
   var propertyList = <Map<String, dynamic>>[].obs;
   List<SurveydetailModel> surveyList = [];
@@ -41,9 +39,11 @@ Future<List<SurveydetailModel>?> fetchData() async {
       }
       return fetchedSurveyList;
     } else {
+      // ignore: avoid_print
       print('Lỗi khi gọi API: ${response.statusCode}');
     }
     } catch (e) {
+      // ignore: avoid_print
       print('Lỗi khi gọi API: $e');
     }
 

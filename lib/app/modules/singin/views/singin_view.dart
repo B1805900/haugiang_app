@@ -18,14 +18,16 @@ class SinginView extends GetView<SinginController> {
         color: const Color.fromARGB(255, 216, 237, 237),
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: SingleChildScrollView(
-          child: Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // ...Các phần tử khác
-                _buildLoginForm(context),
-              ],
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min, // Thêm dòng này để đặt mainAxisSize là min
+            children: [
+              // ...Các phần tử khác
+              Flexible(
+                child: _buildLoginForm(context),
+              ),
+            ],
           ),
         ),
       ),
@@ -46,7 +48,7 @@ class SinginView extends GetView<SinginController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextFormField(
-                  controller: controller.fullnameController,
+                //  controller: controller.fullnameController,
                   keyboardType: TextInputType.text,
                   decoration: buildDecorationTextFormField(
                       hintText: 'Họ tên...', icon: Icons.drive_file_rename_outline),
@@ -59,12 +61,11 @@ class SinginView extends GetView<SinginController> {
                     return null;
                   },
                   onSaved: (value) {
-                    controller.fullname = value ?? '';
+                    controller.userInfo.fullname = value ?? '';
                   },
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: controller.ccccController,
                   keyboardType: TextInputType.number,
                   decoration: buildDecorationTextFormField(
                       hintText: 'Số CCCD...', icon: Icons.recent_actors),
@@ -77,7 +78,7 @@ class SinginView extends GetView<SinginController> {
                     return null;
                   },
                   onSaved: (value) {
-                    controller.cccd = value ?? '';
+                    controller.userInfo.cccd = value ?? '';
                   },
                 ),
                 const SizedBox(height: 10),
@@ -94,7 +95,7 @@ class SinginView extends GetView<SinginController> {
                     return null;
                   },
                   onSaved: (value) {
-                    controller.phone = value ?? '';
+                    controller.userInfo.phone = value ?? '';
                   },
                 ),
                 const SizedBox(height: 10),
@@ -111,7 +112,7 @@ class SinginView extends GetView<SinginController> {
                     return null;
                   },
                   onSaved: (value) {
-                    controller.email = value!;
+                    controller.userInfo.email = value;
                   },
                 ),
                 const SizedBox(height: 10),
@@ -128,7 +129,7 @@ class SinginView extends GetView<SinginController> {
                     return null;
                   },
                   onSaved: (value) {
-                    controller.address = value!;
+                    controller.userInfo.address = value;
                   },
                 ),
                 const SizedBox(height: 10),
@@ -145,7 +146,7 @@ class SinginView extends GetView<SinginController> {
                     return null;
                   },
                   onSaved: (value) {
-                    controller.education = value;
+                    controller.userInfo.education = value;
                   },
                 ),
                 const SizedBox(height: 10),
@@ -162,7 +163,7 @@ class SinginView extends GetView<SinginController> {
                     return null;
                   },
                   onSaved: (value) {
-                    controller.nation = value;
+                    controller.userInfo.nation = value;
                   },
                 ),
                 const SizedBox(height: 10),
@@ -179,7 +180,7 @@ class SinginView extends GetView<SinginController> {
                     return null;
                   },
                   onSaved: (value) {
-                    controller.job = value;
+                    controller.userInfo.job = value;
                   },
                 ),
                 const SizedBox(height: 10),
@@ -196,7 +197,7 @@ class SinginView extends GetView<SinginController> {
                     return null;
                   },
                   onSaved: (value) {
-                    controller.income = int.tryParse(value ?? '');
+                    controller.userInfo.income = int.tryParse(value ?? '');
                   },
                 ),
                 const SizedBox(height: 15),
@@ -210,22 +211,22 @@ class SinginView extends GetView<SinginController> {
                               )),
                     const SizedBox(width: 20),
                     // ignore: sized_box_for_whitespace
-                    Obx(() => Container(
-                      width: 85, // Giới hạn chiều ngang của Container
-                      child: DropdownButton<String>(
-                        value: controller.selectedOption.value,
-                        onChanged: (String? newValue) {
-                          controller.changeOption(newValue!);
-                        },
-                        items: <String>['Nam', 'Nữ', 'Khác']
-                            .map<DropdownMenuItem<String>>((String value) {
+                    Obx(
+                      () => DropdownButton<String>(
+                        value: controller.selectedGender.value,
+                        items: controller.genderOptions.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
                           );
                         }).toList(),
+                      onChanged: (String? newValue) {
+                        if (newValue != null && controller.genderOptions.contains(newValue)) {
+                          controller.selectedGender.value = newValue;
+                        }
+                      },
                       ),
-                    )),
+                    ),
                     const SizedBox(width: 10),
                     const Text('Tuổi:',
                               style: TextStyle(
@@ -248,7 +249,7 @@ class SinginView extends GetView<SinginController> {
                             return null;
                           },
                           onSaved: (value) {
-                            controller.age = int.tryParse(value ?? '');
+                            controller.userInfo.age = int.tryParse(value ?? '');
                           },
                         ),
                       ),
@@ -278,7 +279,7 @@ class SinginView extends GetView<SinginController> {
                             return null;
                           },
                           onSaved: (value) {
-                            controller.numpeople = int.tryParse(value ?? '');
+                            controller.userInfo.numpeople = int.tryParse(value ?? '');
                           },
                         ),
                       ),
@@ -304,7 +305,7 @@ class SinginView extends GetView<SinginController> {
                             return null;
                           },
                           onSaved: (value) {
-                            controller.numfemale = int.tryParse(value ?? '');
+                            controller.userInfo.numfemale = int.tryParse(value ?? '');
                           },
                         ),
                       ),
@@ -317,7 +318,10 @@ class SinginView extends GetView<SinginController> {
                           if (controller.formKey.currentState!.validate()) {
                         controller.formKey.currentState!.save(); // Gọi hàm onSaved của TextFormField
                         SurveyDetailController myController = Get.put(SurveyDetailController());
-                        myController.cccdNum = controller.cccd;
+                        myController.cccdNum = controller.userInfo.cccd;
+                        controller.userInfo.gender = controller.selectedGender.value;
+                        // ignore: avoid_print
+                        print(controller.userInfo.toJson());
                         Get.toNamed(Routes.DASHBOARD);
                       }
                     },
