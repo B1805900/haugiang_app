@@ -70,10 +70,8 @@ class SinginView extends GetView<SinginController> {
                   decoration: buildDecorationTextFormField(
                       hintText: 'Số CCCD...', icon: Icons.recent_actors),
                   validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Vui lòng nhập số Căn cước công dân';
-                    } else if (value.length != 12) {
-                      return 'Số căn cước phải có đúng 12 số';
+                    if (value!.length != 12 && value.length != 9) {
+                      return 'Số CMND/CCCD chưa hợp lệ (phải có 9 hoặc 12 số)';
                     }
                     return null;
                   },
@@ -88,7 +86,7 @@ class SinginView extends GetView<SinginController> {
                       hintText: 'Số điện thoại...', icon: Icons.phone_android),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Số điện thoại không được rỗng";
+                      return null;
                     } else if (!GetUtils.isNum(value)) {
                       return "Vui lòng nhập số điện thoại hợp lệ";
                     }
@@ -105,7 +103,7 @@ class SinginView extends GetView<SinginController> {
                       hintText: 'Email...', icon: Icons.person),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Email không được rỗng";
+                      return null;
                     } else if (!GetUtils.isEmail(value)) {
                       return "Vui lòng nhập email hợp lệ";
                     }
@@ -122,7 +120,7 @@ class SinginView extends GetView<SinginController> {
                       hintText: 'Địa chỉ...', icon: Icons.location_city),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Địa chỉ không được rỗng';
+                      return null;
                     } else if (value.length < 6) {
                       return 'Vui lòng nhập địa chỉ hợp lệ';
                     }
@@ -139,7 +137,7 @@ class SinginView extends GetView<SinginController> {
                   hintText: 'Học vấn...', icon: Icons.school),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Học vấn không được rỗng";
+                      return null;
                     } else if (value.length < 2) {
                       return "Vui lòng nhập học vấn hợp lệ";
                     }
@@ -156,7 +154,7 @@ class SinginView extends GetView<SinginController> {
                   hintText: 'Dân tộc...', icon: Icons.pix),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Dân tộc không được rỗng";
+                      return null;
                     } else if (value.length < 3) {
                       return "Vui lòng nhập tên dân tộc hợp lệ";
                     }
@@ -173,7 +171,7 @@ class SinginView extends GetView<SinginController> {
                   hintText: 'Nghề nghiệp...', icon: Icons.work),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Nghề nghiệp không được rỗng";
+                      return null;
                     } else if (value.length < 2) {
                       return "Vui lòng nhập nghề nghiệp hợp lệ";
                     }
@@ -190,7 +188,7 @@ class SinginView extends GetView<SinginController> {
                   hintText: 'Thu nhập...', icon: Icons.money),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Thu nhập không được rỗng";
+                      return null;
                     } else if (!GetUtils.isNum(value)) {
                       return "Vui lòng nhập số thu nhập hợp lệ";
                     }
@@ -242,7 +240,7 @@ class SinginView extends GetView<SinginController> {
                           hintText: '.'),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return "Tuổi không được rỗng";
+                              return null;
                             } else if (!GetUtils.isNum(value)) {
                               return "Vui lòng nhập số tuổi hợp lệ";
                             }
@@ -272,7 +270,7 @@ class SinginView extends GetView<SinginController> {
                           hintText: '.'),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return "Số nhân khẩu không được rỗng";
+                              return null;
                             } else if (!GetUtils.isNum(value)) {
                               return "Vui lòng nhập số nhân khẩu hợp lệ";
                             }
@@ -298,7 +296,7 @@ class SinginView extends GetView<SinginController> {
                           hintText: '.'),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return "Số thành viên nữ không được rỗng";
+                              return null;
                             } else if (!GetUtils.isNum(value)) {
                               return "Vui lòng nhập số thành viên nữ hợp lệ";
                             }
@@ -311,36 +309,45 @@ class SinginView extends GetView<SinginController> {
                       ),
                   ],
                 ),
-                const SizedBox(height: 10),              
-                InkWell(
-                    onTap: () {
-                      // Hàm xử lý sự kiện khi người dùng nhấn vào InkWell
-                          if (controller.formKey.currentState!.validate()) {
-                        controller.formKey.currentState!.save(); // Gọi hàm onSaved của TextFormField
-                        SurveyDetailController myController = Get.put(SurveyDetailController());
-                        myController.cccdNum = controller.userInfo.cccd;
-                        controller.userInfo.gender = controller.selectedGender.value;
-                        // ignore: avoid_print
-                        print(controller.userInfo.toJson());
-                        Get.toNamed(Routes.DASHBOARD);
-                      }
-                    },
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: const Color.fromARGB(255, 80, 236, 100),
-                    ),
-                    child: const Text(
-                      'Tiếp tục',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                const SizedBox(height: 10),  
+                Obx(() {
+                if (controller.isLoading.value) {
+                  return const Center(
+                    child: CircularProgressIndicator(), // Hiển thị vòng xoay tròn ở giữa màn hình
+                  );
+                } else {
+                  return  InkWell(
+                          onTap: () {
+                            // Hàm xử lý sự kiện khi người dùng nhấn vào InkWell
+                                if (controller.formKey.currentState!.validate()) {
+                              controller.formKey.currentState!.save(); // Gọi hàm onSaved của TextFormField
+                              controller.userInfo.gender = controller.selectedGender.value;
+                              controller.userInfo.usedservice = "Hành chính công";
+                              // ignore: avoid_print
+                              print(controller.userInfo.toJson());
+                              controller.saveUser1(controller.userInfo);
+                            //  Get.toNamed(Routes.DASHBOARD);
+                            }
+                          },
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: const Color.fromARGB(255, 80, 236, 100),
+                          ),
+                          child: const Text(
+                            'Tiếp tục',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  }
                 ),
               ],
             ),

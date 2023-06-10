@@ -82,29 +82,31 @@ class SurveyDetailController extends GetxController {
         var status = responseData[0]['status'];
           if (status == 'success') {
           // Xử lý thành công
-            print('Luu CSLD Thành công');
-            Get.snackbar(
-              'Lưu kết quả thành công', // Tiêu đề thông báo
-              'Xin cảm ơn!', // Nội dung thông báo
-              backgroundColor: Colors.green,
-              colorText: Colors.white,
-              snackPosition: SnackPosition.BOTTOM,
-              duration: Duration(seconds: 2),
-            );
-            await Future.delayed(const Duration(seconds: 4));
-            // Chuyển về trang trước đó
-            Get.back();
+            // print('Luu CSLD Thành công');
+            // Get.snackbar(
+            //   'Lưu kết quả thành công', // Tiêu đề thông báo
+            //   'Xin cảm ơn!', // Nội dung thông báo
+            //   backgroundColor: Colors.green,
+            //   colorText: Colors.white,
+            //   snackPosition: SnackPosition.BOTTOM,
+            //   duration: Duration(seconds: 2),
+            // );
+            showDialogMessage('Lưu kết quả thành công');
+            // await Future.delayed(const Duration(seconds: 4));
+            // // Chuyển về trang trước đó
+            // Get.back();
           } else {
             // Xử lý lỗi
-            print(responseData[0]);
-            Get.snackbar(
-              'Lỗi lưu dữ liệu', // Tiêu đề thông báo
-              'Vui lòng thử lại', // Nội dung thông báo
-              backgroundColor: Colors.red,
-              colorText: Colors.white,
-              snackPosition: SnackPosition.BOTTOM,
-              duration: Duration(seconds: 2),
-            );
+            // print(responseData[0]);
+            // Get.snackbar(
+            //   'Lỗi lưu dữ liệu', // Tiêu đề thông báo
+            //   'Vui lòng thử lại', // Nội dung thông báo
+            //   backgroundColor: Colors.red,
+            //   colorText: Colors.white,
+            //   snackPosition: SnackPosition.BOTTOM,
+            //   duration: Duration(seconds: 2),
+            // );
+            showDialogMessage('Lưu kết quả không thành công');
           }
       } else {
         // Xử lý lỗi: phản hồi rỗng
@@ -112,7 +114,7 @@ class SurveyDetailController extends GetxController {
       }
     } else {
       // Xử lý lỗi: mã trạng thái không phải 200
-      print('Error: ${response.statusCode}');
+      showDialogMessage('Không thể lưu kết quả do Lỗi kết nối!');
     }
   
   // // Kiểm tra response từ server
@@ -159,5 +161,19 @@ class SurveyDetailController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  void showDialogMessage(String message) {
+    Get.defaultDialog(
+      title: 'Thông báo',
+      content: Text(message),
+      textCancel: 'Thực hiện lại',
+      textConfirm: 'Về trang chủ',
+    //  cancelTextColor: Colors.white,
+      onConfirm: () {
+        Get.back();
+        Get.back();
+      },
+    );
   }
 }
