@@ -14,32 +14,39 @@ import 'constants.dart';
 class DashboardView extends GetView<DashboardController> {
   const DashboardView({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
-      return SafeArea(
-        child: Scaffold(
-          key: controller.scaffoldKey,
-          drawer: buildDrawer(context),
-          appBar: const CustomAppBar(
-            title: 'Danh sách khảo sát',
-          ),
-          body: FutureBuilder<Widget>(
-            future: buildSurveyList(context),
-            builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                // Nếu đang kết nối hoặc đang chờ dữ liệu, hiển thị tiêu đề hoặc tiến trình tải
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                // Nếu xảy ra lỗi, hiển thị thông báo lỗi
-                return Center(child: Text('Đã xảy ra lỗi: ${snapshot.error}'));
-              } else {
-                // Nếu có dữ liệu, hiển thị danh sách khảo sát
-                return snapshot.data!;
-              }
-            },
-          ),
+Widget build(BuildContext context) {
+  return SafeArea(
+    child: Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/background.jpg'), // Đường dẫn đến ảnh nền
+          fit: BoxFit.fill, // Cách ảnh nền được hiển thị trong Container
         ),
-      );
-    }
+      ),
+      child: Scaffold(
+        key: controller.scaffoldKey,
+        drawer: buildDrawer(context),
+        appBar: const CustomAppBar(
+          title: 'Danh sách khảo sát',
+        ),
+        body: FutureBuilder<Widget>(
+          future: buildSurveyList(context),
+          builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Đã xảy ra lỗi: ${snapshot.error}'));
+            } else {
+              return snapshot.data!;
+            }
+          },
+        ),
+      ),
+    ),
+  );
+}
+
+
   Future<Widget> buildSurveyList(BuildContext context) async {
   List<SurveyModel> surveyList = await controller.fetchData();
   if (surveyList.isEmpty) {

@@ -36,65 +36,58 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
               },
             ),
           ),
-          // ElevatedButton(
-          //   onPressed: () {
-          //   controller.sendDataToAPI(controller.resultList);
-          //   },
-          //   child: const Text('Lưu kết quả'),
-          // ),
-              Obx(() {
-                if (controller.isLoading.value) {
-                  return const Center(
-                    child: CircularProgressIndicator(), // Hiển thị vòng xoay tròn ở giữa màn hình
-                  );
-                } else {
-                  return InkWell(
-                        onTap: () {
-                          controller.saveResult(controller.resultList);
-                        },
-                      child: Container(
-                      //   width: 200,
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: const Color.fromARGB(255, 80, 236, 100),
-                        ),
-                        child: const Text(
-                          'Lưu kết quả',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+          Obx(() {
+            if (controller.isLoading.value) {
+              return const Center(
+                child: CircularProgressIndicator(), // Hiển thị vòng xoay tròn ở giữa màn hình
+              );
+            } else {
+              return InkWell(
+                    onTap: () {
+                      controller.saveResult(controller.resultList);
+                    },
+                  child: Container(
+                  //   width: 200,
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: const Color.fromARGB(255, 80, 236, 100),
+                    ),
+                    child: const Text(
+                      'Lưu kết quả',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                       ),
-                    );
-                    }
-                  }
-                ),
-
+                    ),
+                  ),
+                );
+                }
+              }
+            ),
+        const SizedBox(height: 2),
         ],
       ),
     );
   }
 
   Future<Widget> buildAnswerList(BuildContext context) async {
-   // List<SurveydetailModel> surVeydetail = controller.getServeydetail();
     controller.resultList.clear();
     List<SurveydetailModel>? surVeydetail = await controller.fetchData();
       return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       child: ListView(
         children: surVeydetail!.map((final SurveydetailModel surVeydetail) {
         return InkWell(
           onTap: () {
             //  Get.toNamed(Routes.SURVEY_DETAIL);
-            Fluttertoast.showToast(
-              msg: '${surVeydetail.answers}',
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-            );
+            // Fluttertoast.showToast(
+            //   msg: '${surVeydetail.answers}',
+            //   toastLength: Toast.LENGTH_SHORT,
+            //   gravity: ToastGravity.BOTTOM,
+            // );
           },
           child: Padding(
             padding: const EdgeInsets.only(top: 8),
@@ -120,7 +113,7 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                               maxLines: 10,
                               overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                                fontSize: 16, color: Colors.black),
+                                fontSize: 17, color: Color.fromARGB(167, 0, 0, 0), fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
@@ -129,40 +122,43 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                     children: [
                       const Icon(Icons.card_membership_rounded,
                           color: primaryColor),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 10),
                       Text(
                         "Chọn tối đa: ${surVeydetail.type}",
                         style: const TextStyle(
-                            fontSize: 16, color: Colors.black),
+                                fontSize: 17, color: Color.fromARGB(167, 0, 0, 0), fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
                   SingleChildScrollView(
-                    child: ListView.builder(
+                    child: ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: surVeydetail.answers!.length,
+                      separatorBuilder: (context, index) => const Divider(
+                        color: Color.fromARGB(255, 42, 213, 168), // Màu sắc của line kẻ ngang
+                        thickness: 2.0, // Độ dày của line kẻ ngang
+                      ),
                       itemBuilder: (context, index) {
-                      return Obx(() => CheckboxListTile( 
-                          title: Text(" ${index+1} . ${surVeydetail.answers![index]["answer"]} "), 
-                          value: surVeydetail.answers![index]["isCheck"].value,
-                          onChanged: (value) {
-                         //   surVeydetail.answers![index]["isCheck"].obs = !surVeydetail.answers![index]["isCheck"].obs;
-                            surVeydetail.answers![index]["isCheck"].value = !surVeydetail.answers![index]["isCheck"].value;
-                            if (value == true) {
-                              controller.addResult(
-                                controller.cccdNum.toString(),
-                                controller.idSurveyNum.toString(),
-                                surVeydetail.idQuestion,
-                                surVeydetail.answers![index]["answer"],
-                              );
-                            } else {
-                                controller.resultList.removeWhere((result) => result.idQuestion == surVeydetail.idQuestion && result.answer == surVeydetail.answers![index]["answer"]);
-                            }
-                          },
-                        ),
-                      ); 
+                        return Obx(() => CheckboxListTile( 
+                            title: Text(" ${index+1} . ${surVeydetail.answers![index]["answer"]} "), 
+                            value: surVeydetail.answers![index]["isCheck"].value,
+                            onChanged: (value) {
+                              surVeydetail.answers![index]["isCheck"].value = !surVeydetail.answers![index]["isCheck"].value;
+                              if (value == true) {
+                                controller.addResult(
+                                  controller.cccdNum.toString(),
+                                  controller.idSurveyNum.toString(),
+                                  surVeydetail.idQuestion,
+                                  surVeydetail.answers![index]["answer"],
+                                );
+                              } else {
+                                  controller.resultList.removeWhere((result) => result.idQuestion == surVeydetail.idQuestion && result.answer == surVeydetail.answers![index]["answer"]);
+                              }
+                            },
+                          ),
+                        ); 
                       },
                     ),
                   ),
