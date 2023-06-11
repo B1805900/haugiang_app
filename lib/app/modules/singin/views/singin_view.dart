@@ -17,7 +17,7 @@ class SinginView extends GetView<SinginController> {
             Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/background2.jpg'),
+                  image: AssetImage('assets/images/background.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -212,11 +212,11 @@ class SinginView extends GetView<SinginController> {
                                 fontWeight: FontWeight.w600,
                                 color: Color.fromARGB(255, 255, 255, 255),
                               )),
-                    const SizedBox(width: 20),
+                    const SizedBox(width: 26),
                     Obx(
                       () => DropdownButton<String>(
                         value: controller.selectedGender.value,
-                        dropdownColor: Color.fromARGB(117, 0, 0, 0), // Đặt màu sắc cho menu dropdown
+                        dropdownColor: const Color.fromARGB(117, 0, 0, 0), // Đặt màu sắc cho menu dropdown
                         items: controller.genderOptions.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -234,7 +234,7 @@ class SinginView extends GetView<SinginController> {
                       },
                       ),
                     ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 26),
                     const Text('Tuổi:',
                               style: TextStyle(
                                 fontSize: 17,
