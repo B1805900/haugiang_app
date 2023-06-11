@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../data/models/result.dart';
 import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../common/constant.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/survey_detail_controller.dart';
 import '../../../data/models/survey_detail.dart';
 
@@ -13,6 +13,7 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Khảo sát số: #${controller.idSurveyNum}'),
+        backgroundColor: const Color.fromARGB(255, 87, 241, 107),
         centerTitle: true,
       ),
       body: Column(
@@ -35,20 +36,44 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
               },
             ),
           ),
-          ElevatedButton(
-            onPressed: () {
-            //  print(controller.selectedAnswers);
-              for (var result in controller.resultList) {
-              print('CCCD: ${result.cccd}');
-              print('ID Survey: ${result.idSurvey}');
-              print('ID Question: ${result.idQuestion}');
-              print('Answer: ${result.answer}');
-              print('---');
-            }
-            controller.sendDataToAPI(controller.resultList);
-            },
-            child: const Text('Lưu kết quả'),
-          ),
+          // ElevatedButton(
+          //   onPressed: () {
+          //   controller.sendDataToAPI(controller.resultList);
+          //   },
+          //   child: const Text('Lưu kết quả'),
+          // ),
+              Obx(() {
+                if (controller.isLoading.value) {
+                  return const Center(
+                    child: CircularProgressIndicator(), // Hiển thị vòng xoay tròn ở giữa màn hình
+                  );
+                } else {
+                  return InkWell(
+                        onTap: () {
+                          controller.saveResult(controller.resultList);
+                        },
+                      child: Container(
+                      //   width: 200,
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: const Color.fromARGB(255, 80, 236, 100),
+                        ),
+                        child: const Text(
+                          'Lưu kết quả',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    );
+                    }
+                  }
+                ),
+
         ],
       ),
     );

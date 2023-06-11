@@ -13,6 +13,7 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Wellcome'),
+        backgroundColor: const Color.fromARGB(255, 87, 241, 107),
         centerTitle: true,
       ),
       

@@ -20,6 +20,16 @@ class SurveyDetailController extends GetxController {
         answer: answer,
       ));
   }
+      var isLoading = false.obs;
+
+  Future<void> saveResult(List<ResultModel> resultList) async {
+    isLoading.value = true;
+
+    // Thực hiện công việc lưu người dùng
+    await sendDataToAPI(resultList);
+
+    isLoading.value = false;
+  }
 
   Future<List<SurveydetailModel>?> fetchData() async {
     var url = Uri.parse('http://api.ctu-it.com/API/surveydetail.php?id_survey=$idSurveyNum');
@@ -60,7 +70,7 @@ class SurveyDetailController extends GetxController {
       return null;
   }
 
-  void sendDataToAPI(List<ResultModel> resultList) async {
+  Future<void> sendDataToAPI(List<ResultModel> resultList) async {
   // Tạo danh sách các đối tượng ResultModel thành danh sách Map
   List<Map<String, dynamic>> resultsData = resultList.map((result) => result.toJson()).toList();
   
@@ -169,11 +179,12 @@ class SurveyDetailController extends GetxController {
       content: Text(message),
       textCancel: 'Thực hiện lại',
       textConfirm: 'Về trang chủ',
-    //  cancelTextColor: Colors.white,
+    //  cancelTextColor: Colors.black,
       onConfirm: () {
         Get.back();
         Get.back();
       },
+      
     );
   }
 }

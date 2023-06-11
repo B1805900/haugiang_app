@@ -10,6 +10,7 @@ class SinginView extends GetView<SinginController> {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Thông tin cá nhân'),
+          backgroundColor: const Color.fromARGB(255, 87, 241, 107),
           centerTitle: true,
         ),
         body: Stack(
@@ -63,7 +64,7 @@ class SinginView extends GetView<SinginController> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Họ tên không được rỗng";
-                    } else if (value.length <= 3) {
+                    } else if (GetUtils.isNum(value)) {
                       return "Vui lòng nhập họ tên hợp lệ";
                     }
                     return null;
@@ -78,7 +79,9 @@ class SinginView extends GetView<SinginController> {
                   decoration: buildDecorationTextFormField(
                       hintText: 'Số CCCD...', icon: Icons.recent_actors),
                   validator: (value) {
-                    if (value!.length != 12 && value.length != 9) {
+                    if (value!.isEmpty) {
+                      return null;
+                    } else if (value.length != 12 && value.length != 9) {
                       return 'Số CMND/CCCD chưa hợp lệ (phải có 9 hoặc 12 số)';
                     }
                     return null;
