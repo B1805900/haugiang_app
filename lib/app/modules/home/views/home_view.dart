@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../../common/constant.dart';
 import '../controllers/home_controller.dart';
 
 import 'package:haugiang_app/app/routes/app_pages.dart';
@@ -13,7 +14,7 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Wellcome'),
-        backgroundColor: const Color.fromARGB(255, 87, 241, 107),
+        backgroundColor: primaryColor,
         centerTitle: true,
       ),
       
@@ -64,7 +65,7 @@ class HomeView extends GetView<HomeController> {
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  color: const Color.fromARGB(255, 80, 236, 100),
+                  color: primaryColor,
                 ),
                 child: const Text(
                   'Tiếp tục',

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
-import '../../../common/widgets/background.dart';
+
 import '../../../common/constant.dart';
-import '../../../common/widgets/custom_appbar.dart';
 import '../../../data/models/survey.dart';
 import '../../../routes/app_pages.dart';
 import '../../survey_detail/controllers/survey_detail_controller.dart';
@@ -13,39 +13,38 @@ import 'constants.dart';
 class DashboardView extends GetView<DashboardController> {
   const DashboardView({Key? key}) : super(key: key);
   @override
-Widget build(BuildContext context) {
-  Size size = MediaQuery.of(context).size;
-  return SafeArea(
-    child: Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/background.jpg'), // Đường dẫn đến ảnh nền
-          fit: BoxFit.fill, // Cách ảnh nền được hiển thị trong Container
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/background.jpg'), // Đường dẫn đến ảnh nền
+              fit: BoxFit.fill, // Cách ảnh nền được hiển thị trong Container
+            ),
+          ),
+          child: AppBar(
+            title: const Text('Danh sách khảo sát'),
+            backgroundColor: Colors.transparent,
+          ),
         ),
       ),
-      child: Scaffold(
-        key: controller.scaffoldKey,
-        drawer: buildDrawer(context),
-        appBar: const CustomAppBar(
-          title: 'Danh sách khảo sát',
-        ),
-        body: FutureBuilder<Widget>(
-          future: buildSurveyList(context),
-          builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-            Background(height: size.height);
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Đã xảy ra lỗi: ${snapshot.error}'));
-            } else {
-              return snapshot.data!;
-            }
-          },
-        ),
+      drawer: buildDrawer(context),
+      body: FutureBuilder<Widget>(
+        future: buildSurveyList(context),
+        builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Đã xảy ra lỗi: ${snapshot.error}'));
+          } else {
+            return snapshot.data!;
+          }
+        },
       ),
-    ),
-  );
-}
+    );
+  }
 
 
   Future<Widget> buildSurveyList(BuildContext context) async {
@@ -53,71 +52,78 @@ Widget build(BuildContext context) {
   if (surveyList.isEmpty) {
     return Padding(
       padding: const EdgeInsets.only(top: 24),
-
       // ignore: use_build_context_synchronously
       child: buildNullList(context),
     );
   } else {
     return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16),
-      child: ListView(
-        children: surveyList.map((survey) {
-          return InkWell(
-            
-            onTap: () {
-              final SurveyDetailController myController = Get.put(SurveyDetailController());
-              myController.idSurveyNum = survey.idSurvey;
-              Get.toNamed(Routes.SURVEY_DETAIL);
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.only(left: 0, right: 0),
+        child: Container(
+          decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/background.jpg'), // Đường dẫn đến ảnh nền
+            fit: BoxFit.cover, // Cách ảnh nền được hiển thị trong Container
+          ),
+        ),
+        child: ListView(
+          children: surveyList.map((survey) {
+            return InkWell(
+              onTap: () {
+                final SurveyDetailController myController = Get.put(SurveyDetailController());
+                myController.idSurveyNum = survey.idSurvey;
+                Get.toNamed(Routes.SURVEY_DETAIL);
+              },
               child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: primaryColor, width: 3),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(Icons.class_rounded, color: primaryColor),
-                        const SizedBox(width: 8),
-                        SizedBox(
-                          width: Get.width * 0.7,
-                          child: Text(
-                            "Tên khảo sát: ${survey.nameSurvey}",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
+                padding: const EdgeInsets.only(top: 8),
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent, // Màu nền của Container
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: primaryColor, width: 5),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.class_rounded, color: primaryColor),
+                          const SizedBox(width: 8),
+                          SizedBox(
+                            width: Get.width * 0.7,
+                            child: Text(
+                              "Tên khảo sát: ${survey.nameSurvey}",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.card_membership_rounded, color: primaryColor),
-                        const SizedBox(width: 8),
-                        Text(
-                          "Thời gian kết thúc: ${survey.timeEnd}",
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.card_membership_rounded, color: primaryColor),
+                          const SizedBox(width: 8),
+                          Text(
+                            "Thời gian kết thúc: ${survey.timeEnd}",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        }).toList(),
+
+            );
+          }).toList(),
+        ),
       ),
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/singin_controller.dart';
 import '../../../common/widgets/custom_textformfield.dart';
-
+import '../../../common/constant.dart';
 class SinginView extends GetView<SinginController> {
   const SinginView({Key? key}) : super(key: key);
   @override
@@ -10,7 +10,7 @@ class SinginView extends GetView<SinginController> {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Thông tin cá nhân'),
-          backgroundColor: const Color.fromARGB(255, 87, 241, 107),
+          backgroundColor: primaryColor,
           centerTitle: true,
         ),
         body: Stack(
@@ -345,7 +345,7 @@ class SinginView extends GetView<SinginController> {
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
-                            color: const Color.fromARGB(255, 80, 236, 100),
+                            color: primaryColor,
                           ),
                           child: const Text(
                             'Tiếp tục',
