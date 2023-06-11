@@ -18,7 +18,7 @@ class SinginView extends GetView<SinginController> {
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/background.jpg'),
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
@@ -54,6 +54,9 @@ class SinginView extends GetView<SinginController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextFormField(
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255), // Đặt màu sắc cho chữ khi nhập liệu
+                    ),
                   keyboardType: TextInputType.text,
                   decoration: buildDecorationTextFormField(
                       hintText: 'Họ tên...', icon: Icons.drive_file_rename_outline),
