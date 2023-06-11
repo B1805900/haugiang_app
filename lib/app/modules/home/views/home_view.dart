@@ -68,7 +68,7 @@ class HomeView extends GetView<HomeController> {
                   color: primaryColor,
                 ),
                 child: const Text(
-                  'Tiếp tục',
+                  'Bắt đầu',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
