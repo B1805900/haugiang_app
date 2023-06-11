@@ -21,7 +21,7 @@ final buttonStyle = ButtonStyle(
   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
     RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(30.0),
-      side: BorderSide(color: Colors.red),
+      side: const BorderSide(color: Colors.red),
     ),
   ),
 );

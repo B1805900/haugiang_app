@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
+import '../../../common/widgets/background.dart';
 import '../../../common/constant.dart';
 import '../../../common/widgets/custom_appbar.dart';
 import '../../../data/models/survey.dart';
@@ -15,6 +14,7 @@ class DashboardView extends GetView<DashboardController> {
   const DashboardView({Key? key}) : super(key: key);
   @override
 Widget build(BuildContext context) {
+  Size size = MediaQuery.of(context).size;
   return SafeArea(
     child: Container(
       decoration: const BoxDecoration(
@@ -30,8 +30,10 @@ Widget build(BuildContext context) {
           title: 'Danh sách khảo sát',
         ),
         body: FutureBuilder<Widget>(
+          
           future: buildSurveyList(context),
           builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+            Background(height: size.height);
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
@@ -52,6 +54,7 @@ Widget build(BuildContext context) {
   if (surveyList.isEmpty) {
     return Padding(
       padding: const EdgeInsets.only(top: 24),
+
       // ignore: use_build_context_synchronously
       child: buildNullList(context),
     );
@@ -61,9 +64,8 @@ Widget build(BuildContext context) {
       child: ListView(
         children: surveyList.map((survey) {
           return InkWell(
+            
             onTap: () {
-          //    Get.toNamed(Routes.SURVEY_DETAIL, arguments: survey.idSurvey);
-            //  final myController = Get.find<SurveyDetailController()>;
               final SurveyDetailController myController = Get.put(SurveyDetailController());
               myController.idSurveyNum = survey.idSurvey;
               Get.toNamed(Routes.SURVEY_DETAIL);
