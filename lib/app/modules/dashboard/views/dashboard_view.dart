@@ -30,7 +30,6 @@ Widget build(BuildContext context) {
           title: 'Danh sách khảo sát',
         ),
         body: FutureBuilder<Widget>(
-          
           future: buildSurveyList(context),
           builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
             Background(height: size.height);
