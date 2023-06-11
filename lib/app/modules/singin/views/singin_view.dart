@@ -1,39 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../routes/app_pages.dart';
-import '../../survey_detail/controllers/survey_detail_controller.dart';
 import '../controllers/singin_controller.dart';
 import '../../../common/widgets/custom_textformfield.dart';
 
 class SinginView extends GetView<SinginController> {
   const SinginView({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Thông tin cá nhân'),
-        centerTitle: true,
-      ),
-      body: Container(
-        color: const Color.fromARGB(255, 216, 237, 237),
-        padding: const EdgeInsets.symmetric(vertical: 10.0),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min, // Thêm dòng này để đặt mainAxisSize là min
-            children: [
-              // ...Các phần tử khác
-              Flexible(
-                child: _buildLoginForm(context),
-              ),
-            ],
-          ),
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Thông tin cá nhân'),
+          centerTitle: true,
         ),
-      ),
-    );
-  }
-  
+        body: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/background2.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                //  const SizedBox(height: 10),
+                  Flexible(
+                    child: _buildLoginForm(context),
+                  ),
+                //  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   Form _buildLoginForm(BuildContext context) {
     return Form(
       key: controller.formKey,
@@ -48,7 +54,6 @@ class SinginView extends GetView<SinginController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextFormField(
-                //  controller: controller.fullnameController,
                   keyboardType: TextInputType.text,
                   decoration: buildDecorationTextFormField(
                       hintText: 'Họ tên...', icon: Icons.drive_file_rename_outline),
@@ -205,17 +210,21 @@ class SinginView extends GetView<SinginController> {
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.grey,
+                                color: Color.fromARGB(255, 255, 255, 255),
                               )),
                     const SizedBox(width: 20),
-                    // ignore: sized_box_for_whitespace
                     Obx(
                       () => DropdownButton<String>(
                         value: controller.selectedGender.value,
+                        dropdownColor: Color.fromARGB(117, 0, 0, 0), // Đặt màu sắc cho menu dropdown
                         items: controller.genderOptions.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(value,
+                            style: const TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255), // Đặt màu sắc cho văn bản trong tùy chọn
+                                ),
+                            ),
                           );
                         }).toList(),
                       onChanged: (String? newValue) {
@@ -230,7 +239,7 @@ class SinginView extends GetView<SinginController> {
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.grey,
+                                color: Color.fromARGB(255, 255, 255, 255),
                               )),
                     const SizedBox(width: 10),
                     Flexible(
@@ -260,7 +269,7 @@ class SinginView extends GetView<SinginController> {
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w600,
-                        color: Colors.grey,
+                        color: Color.fromARGB(255, 255, 255, 255),
                       )),
                     const SizedBox(width: 5),
                     Flexible(
@@ -286,7 +295,7 @@ class SinginView extends GetView<SinginController> {
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.grey,
+                                color: Color.fromARGB(255, 255, 255, 255),
                               )),
                     const SizedBox(width: 5),
                     Flexible(
@@ -317,18 +326,14 @@ class SinginView extends GetView<SinginController> {
                   );
                 } else {
                   return  InkWell(
-                          onTap: () {
-                            // Hàm xử lý sự kiện khi người dùng nhấn vào InkWell
-                                if (controller.formKey.currentState!.validate()) {
-                              controller.formKey.currentState!.save(); // Gọi hàm onSaved của TextFormField
-                              controller.userInfo.gender = controller.selectedGender.value;
-                              controller.userInfo.usedservice = "Hành chính công";
-                              // ignore: avoid_print
-                              print(controller.userInfo.toJson());
-                              controller.saveUser1(controller.userInfo);
-                            //  Get.toNamed(Routes.DASHBOARD);
-                            }
-                          },
+                        onTap: () {
+                          if (controller.formKey.currentState!.validate()) {
+                            controller.formKey.currentState!.save(); // Gọi hàm onSaved của TextFormField
+                            controller.userInfo.gender = controller.selectedGender.value;
+                            controller.userInfo.usedservice = "Hành chính công";
+                            controller.saveUser1(controller.userInfo);
+                          }
+                        },
                         child: Container(
                           alignment: Alignment.center,
                           padding: const EdgeInsets.symmetric(vertical: 14),

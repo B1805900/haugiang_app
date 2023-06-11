@@ -7,7 +7,7 @@ InputDecoration buildDecorationTextFormField(
   return InputDecoration(
     contentPadding: const EdgeInsets.symmetric(vertical: 10),
     hintText: hintText,
-    hintStyle: TextStyle(color: Colors.grey[400]),
+    hintStyle: const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
     focusColor: primaryColor,
     prefixIcon: Icon(
       icon,
