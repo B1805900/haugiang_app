@@ -76,6 +76,9 @@ class SinginView extends GetView<SinginController> {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255), // Đặt màu sắc cho chữ khi nhập liệu
+                    ),
                   keyboardType: TextInputType.number,
                   decoration: buildDecorationTextFormField(
                       hintText: 'Số CCCD...', icon: Icons.recent_actors),
@@ -93,6 +96,9 @@ class SinginView extends GetView<SinginController> {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255), // Đặt màu sắc cho chữ khi nhập liệu
+                    ),
                   keyboardType: TextInputType.number,
                   decoration: buildDecorationTextFormField(
                       hintText: 'Số điện thoại...', icon: Icons.phone_android),
@@ -110,6 +116,9 @@ class SinginView extends GetView<SinginController> {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255), // Đặt màu sắc cho chữ khi nhập liệu
+                    ),
                   keyboardType: TextInputType.emailAddress,
                   decoration: buildDecorationTextFormField(
                       hintText: 'Email...', icon: Icons.person),
@@ -127,6 +136,9 @@ class SinginView extends GetView<SinginController> {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255), // Đặt màu sắc cho chữ khi nhập liệu
+                    ),
                   keyboardType: TextInputType.text,
                   decoration: buildDecorationTextFormField(
                       hintText: 'Địa chỉ...', icon: Icons.location_city),
@@ -144,6 +156,9 @@ class SinginView extends GetView<SinginController> {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                     style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255), // Đặt màu sắc cho chữ khi nhập liệu
+                    ),
                   keyboardType: TextInputType.text,
                   decoration: buildDecorationTextFormField(
                   hintText: 'Học vấn...', icon: Icons.school),
@@ -161,6 +176,9 @@ class SinginView extends GetView<SinginController> {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255), // Đặt màu sắc cho chữ khi nhập liệu
+                    ),
                   keyboardType: TextInputType.text,
                   decoration: buildDecorationTextFormField(
                   hintText: 'Dân tộc...', icon: Icons.pix),
@@ -178,6 +196,9 @@ class SinginView extends GetView<SinginController> {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255), // Đặt màu sắc cho chữ khi nhập liệu
+                    ),
                   keyboardType: TextInputType.text,
                   decoration: buildDecorationTextFormField(
                   hintText: 'Nghề nghiệp...', icon: Icons.work),
@@ -195,6 +216,9 @@ class SinginView extends GetView<SinginController> {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255), // Đặt màu sắc cho chữ khi nhập liệu
+                    ),
                   keyboardType: TextInputType.number,
                   decoration: buildDecorationTextFormField(
                   hintText: 'Thu nhập...', icon: Icons.money),
@@ -251,6 +275,9 @@ class SinginView extends GetView<SinginController> {
                     const SizedBox(width: 10),
                     Flexible(
                         child: TextFormField(
+                          style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255), // Đặt màu sắc cho chữ khi nhập liệu
+                    ),
                           keyboardType: TextInputType.number,
                           decoration: buildDecorationTextFormField(
                           hintText: '.'),
@@ -281,6 +308,9 @@ class SinginView extends GetView<SinginController> {
                     const SizedBox(width: 5),
                     Flexible(
                         child: TextFormField(
+                          style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255), // Đặt màu sắc cho chữ khi nhập liệu
+                    ),
                           keyboardType: TextInputType.number,
                           decoration: buildDecorationTextFormField(
                           hintText: '.'),
@@ -307,6 +337,9 @@ class SinginView extends GetView<SinginController> {
                     const SizedBox(width: 5),
                     Flexible(
                         child: TextFormField(
+                          style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255), // Đặt màu sắc cho chữ khi nhập liệu
+                    ),
                           keyboardType: TextInputType.number,
                           decoration: buildDecorationTextFormField(
                           hintText: '.'),
