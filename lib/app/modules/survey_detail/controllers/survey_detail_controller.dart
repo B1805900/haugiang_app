@@ -9,6 +9,7 @@ import '../../../data/models/result.dart';
 
 class SurveyDetailController extends GetxController {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  var nameSurveytitle;
   var cccdNum;
   var idSurveyNum;
   //TODO: Implement SurveyDetailController

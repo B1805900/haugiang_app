@@ -65,64 +65,69 @@ class DashboardView extends GetView<DashboardController> {
             fit: BoxFit.cover, // Cách ảnh nền được hiển thị trong Container
           ),
         ),
-        child: ListView(
-          children: surveyList.map((survey) {
-            return InkWell(
-              onTap: () {
-                final SurveyDetailController myController = Get.put(SurveyDetailController());
-                myController.idSurveyNum = survey.idSurvey;
-                Get.toNamed(Routes.SURVEY_DETAIL);
-              },
-              child: Container(
-                padding: const EdgeInsets.only(top: 8),
+        child: RefreshIndicator(
+          onRefresh: () { return Future.delayed(const Duration(seconds: 1)); },
+          child: ListView(
+            children: surveyList.map((survey) {
+              return InkWell(
+                onTap: () {
+                  final SurveyDetailController myController = Get.put(SurveyDetailController());
+                  myController.idSurveyNum = survey.idSurvey;
+                  myController.nameSurveytitle = survey.nameSurvey;
+                 // print(survey.idSurvey);
+                  Get.toNamed(Routes.SURVEY_DETAIL);
+                },
                 child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.transparent, // Màu nền của Container
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: primaryColor, width: 5),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(Icons.class_rounded, color: primaryColor),
-                          const SizedBox(width: 8),
-                          SizedBox(
-                            width: Get.width * 0.7,
-                            child: Text(
-                              "Tên khảo sát: ${survey.nameSurvey}",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.transparent, // Màu nền của Container
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: primaryColor, width: 5),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(Icons.class_rounded, color: primaryColor),
+                            const SizedBox(width: 8),
+                            SizedBox(
+                              width: Get.width * 0.82,
+                              child: Text(
+                                "Tên khảo sát: ${survey.nameSurvey}",
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Icon(Icons.card_membership_rounded, color: primaryColor),
+                            const SizedBox(width: 8),
+                            Text(
+                              "Thời gian kết thúc: ${survey.timeEnd}",
                               style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.white,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(Icons.card_membership_rounded, color: primaryColor),
-                          const SizedBox(width: 8),
-                          Text(
-                            "Thời gian kết thúc: ${survey.timeEnd}",
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-
-            );
-          }).toList(),
+        
+              );
+            }).toList(),
+          ),
         ),
       ),
     );

@@ -4,13 +4,14 @@ import '../../../common/constant.dart';
 import '../controllers/survey_detail_controller.dart';
 import '../../../data/models/survey_detail.dart';
 import '../../../common/constant.dart';
+import 'package:marquee_widget/marquee_widget.dart';
 class SurveyDetailView extends GetView<SurveyDetailController> {
   const SurveyDetailView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Khảo sát số: #${controller.idSurveyNum}'),
+        title: Text(controller.nameSurveytitle),
         backgroundColor: primaryColor,
         centerTitle: true,
       ),
