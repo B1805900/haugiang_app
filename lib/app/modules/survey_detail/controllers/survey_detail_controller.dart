@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:haugiang_app/app/common/constant.dart';
 import '../../../data/models/survey_detail.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -174,17 +175,20 @@ class SurveyDetailController extends GetxController {
   }
 
   void showDialogMessage(String message) {
-    Get.defaultDialog(
-      title: 'Thông báo',
-      content: Text(message),
-      textCancel: 'Thực hiện lại',
-      textConfirm: 'Về trang chủ',
-    //  cancelTextColor: Colors.black,
-      onConfirm: () {
-        Get.back();
-        Get.back();
-      },
-      
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Thông báo'),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Get.back(result: 'Đóng');
+            },
+            child: const Text('Đóng', style: TextStyle(color: primaryColor, fontSize: 18),),
+          ),
+        ],
+      ),
+      barrierDismissible: false,
     );
   }
 }
