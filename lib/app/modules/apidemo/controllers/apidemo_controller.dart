@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 
 class ApidemoController extends GetxController {
-
   void showMyDialog(String mess) {
       Get.dialog(
         AlertDialog(
