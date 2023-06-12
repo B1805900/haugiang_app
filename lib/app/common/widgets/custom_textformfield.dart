@@ -8,10 +8,10 @@ InputDecoration buildDecorationTextFormField(
     contentPadding: const EdgeInsets.symmetric(vertical: 10),
     hintText: hintText,
     hintStyle: const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-    focusColor: primaryColor,
+    focusColor: iconColor,
     prefixIcon: Icon(
       icon,
-      color: primaryColor,
+      color: iconColor,
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(30),

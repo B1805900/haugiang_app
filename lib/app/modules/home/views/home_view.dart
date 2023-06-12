@@ -12,13 +12,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Wellcome'),
-        backgroundColor: primaryColor,
-        centerTitle: true,
-      ),
-      
-      // ignore: avoid_unnecessary_containers
+    // ignore: avoid_unnecessary_containers
       body: Container( // hoặc Expanded
     //    color: const Color.fromARGB(255, 216, 237, 237),
     //    padding: const EdgeInsets.symmetric(vertical: 60.0),

@@ -10,7 +10,7 @@ class DashboardController extends GetxController {
   Future<List<SurveyModel>> fetchData() async {
     var propertyList = <Map<String, dynamic>>[].obs;
     List<SurveyModel> surveyList = [];
-    var url = Uri.parse('http://api.ctu-it.com/survey.php');
+    var url = Uri.parse('http://api.ctu-it.com/API/survey.php');
     try {
       var response = await http.get(url);
       if (response.statusCode == 200) {
