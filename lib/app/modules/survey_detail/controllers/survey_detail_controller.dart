@@ -182,7 +182,8 @@ class SurveyDetailController extends GetxController {
         actions: <Widget>[
           TextButton(
             onPressed: () {
-              Get.back(result: 'Đóng');
+              Get.back();
+              Get.back();
             },
             child: const Text('Đóng', style: TextStyle(color: primaryColor, fontSize: 18),),
           ),

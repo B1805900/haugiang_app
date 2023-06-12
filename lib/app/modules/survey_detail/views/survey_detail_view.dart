@@ -144,10 +144,6 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: surVeydetail.answers!.length,
-                      // separatorBuilder: (context, index) => const Divider(
-                      //   color: Color.fromARGB(255, 42, 213, 168), // Màu sắc của line kẻ ngang
-                      //   thickness: 2.0, // Độ dày của line kẻ ngang
-                      // ),
                       itemBuilder: (context, index) {
                         return Obx(() => InkWell(
                           onTap: () {
