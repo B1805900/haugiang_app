@@ -379,21 +379,21 @@ class SinginView extends GetView<SinginController> {
           //         )),
           //   ),
           // ),
-          // const SizedBox(height: 10),
-          // InkWell(
-          //   onTap: () => Get.toNamed(Routes.APIDEMO),
-          //   child: TextButton(
-          //     onPressed: () {
-          //       Get.toNamed(Routes.APIDEMO);
-          //     },
-          //     child: const Text('Test API',
-          //         style: TextStyle(
-          //           fontSize: 17,
-          //           fontWeight: FontWeight.w600,
-          //           color: Colors.grey,
-          //         )),
-          //   ),
-          // ),
+          const SizedBox(height: 10),
+          InkWell(
+            onTap: () => Get.toNamed(Routes.APIDEMO),
+            child: TextButton(
+              onPressed: () {
+                Get.toNamed(Routes.APIDEMO);
+              },
+              child: const Text('Test API',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey,
+                  )),
+            ),
+          ),
         ],
       ),
       ),
