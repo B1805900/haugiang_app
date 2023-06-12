@@ -12,63 +12,62 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    // ignore: avoid_unnecessary_containers
-      body: Container( // hoặc Expanded
-    //    color: const Color.fromARGB(255, 216, 237, 237),
-    //    padding: const EdgeInsets.symmetric(vertical: 60.0),
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/background_image.jpg'), // Đường dẫn đến hình ảnh của bạn
-                fit: BoxFit.cover, // Tuỳ chọn về cách hiển thị hình ảnh
-              ),
-            ),
-        child: Column(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/background_image.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center( // Thêm Center widget để căn giữa nội dung
+          child: Column(
+          mainAxisAlignment: MainAxisAlignment.center, // Căn giữa theo chiều dọc
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Align(
-              alignment: Alignment.topCenter,
-            ),
-            const SizedBox(height: 330),
-            const Text(
+            children: [
+              const Align(
+                alignment: Alignment.topCenter,
+              ),
+              const Text(
                 'Chào mừng đến với ứng dụng \n\n khảo sát ý kiến người dân!',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: Color.fromARGB(255, 247, 240, 240),
-                    fontSize: 19,
-                  //  backgroundColor: Colors.white,
-                    fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 247, 240, 240),
+                  fontSize: 19,
+                  fontWeight: FontWeight.bold,
                 ),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  textScaleFactor: 1.3,
-                  softWrap: true,
-            ),
-            const SizedBox(height: 30),
-            InkWell(
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                textScaleFactor: 1.3,
+                softWrap: true,
+              ),
+              const SizedBox(height: 30),
+              InkWell(
                 onTap: () {
-                    Get.toNamed(Routes.SINGIN);
+                  Get.toNamed(Routes.SINGIN);
                 },
-              child: Container(
-                 width: 200,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: primaryColor,
-                ),
-                child: const Text(
-                  'Bắt đầu',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                child: Container(
+                  width: 200,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: primaryColor,
+                  ),
+                  child: const Text(
+                    'Bắt đầu',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
   }
+
 }
