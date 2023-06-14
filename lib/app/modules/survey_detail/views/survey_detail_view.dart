@@ -93,25 +93,9 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
           final SurveydetailModel survey = surVeydetail[groupIndex];
           return Column(
             children: [
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     const SizedBox(
-              //       height: 30,
-              //     ),
-              //     for (int i = 0; i < surVeydetail.length; i++)
-              //       Container(
-              //         width: 10,
-              //         height: 10,
-              //         margin: const EdgeInsets.symmetric(horizontal: 5),
-              //         decoration: BoxDecoration(
-              //           shape: BoxShape.circle,
-              //           color: i == groupIndex ? primaryColor : Colors.white,
-              //         ),
-              //       ),
-              //   ],
-              // ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: Text(
@@ -137,7 +121,6 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                           child: Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              // color: Colors.white.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(color: primaryColor, width: 3),
                             ),
@@ -156,9 +139,10 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                                         maxLines: 10,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
-                                            fontSize: 17,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                                          fontSize: 17,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -177,9 +161,10 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                                     Text(
                                       "Chọn tối đa: ${question.type} đáp án",
                                       style: const TextStyle(
-                                          fontSize: 17,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
+                                        fontSize: 17,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -198,85 +183,75 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                                     itemCount: question.answers!.length,
                                     itemBuilder: (context, index) {
                                       return GetBuilder<SurveyDetailController>(
-                                          init: SurveyDetailController(),
-                                          builder: (controller) => InkWell(
-                                                onTap: () {
-                                                  question.answers![index]
-                                                          ["isCheck"] =
-                                                      !question.answers![index]
-                                                          ["isCheck"];
-                                                  if (question.answers![index]
-                                                      ["isCheck"]) {
-                                                    controller.addResult(
-                                                      controller.cccdNum
-                                                          .toString(),
-                                                      controller.idSurveyNum
-                                                          .toString(),
-                                                      question.idQuestion,
-                                                      question.answers![index]
-                                                          ["answer"],
-                                                    );
-                                                  } else {
-                                                    controller.resultList
-                                                        .removeWhere((result) =>
-                                                            result.idQuestion ==
-                                                                question
-                                                                    .idQuestion &&
-                                                            result.answer ==
-                                                                question.answers![
-                                                                        index]
-                                                                    ["answer"]);
-                                                  }
-                                                },
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        width: 24,
-                                                        height: 24,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: question.answers![
-                                                                      index]
-                                                                  ["isCheck"]
-                                                              ? Colors.white
-                                                              : Colors
-                                                                  .transparent,
-                                                          border: Border.all(
-                                                            color: Colors.white,
-                                                            width: 2,
-                                                          ),
-                                                        ),
-                                                        child:
-                                                            question.answers![
-                                                                        index]
-                                                                    ["isCheck"]
-                                                                ? const Icon(
-                                                                    Icons.check,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    size: 16,
-                                                                  )
-                                                                : null,
+                                        init: SurveyDetailController(),
+                                        builder: (controller) {
+                                          final AnswerModel answer =
+                                              question.answers![index];
+                                          return InkWell(
+                                            onTap: () {
+                                              answer.isCheck =
+                                                  !(answer.isCheck ?? false);
+                                              if ((answer.isCheck ?? false)) {
+                                                controller.addResult(
+                                                  controller.cccdNum.toString(),
+                                                  controller.idSurveyNum
+                                                      .toString(),
+                                                  question.idQuestion,
+                                                  answer.answer,
+                                                );
+                                              } else {
+                                                controller.resultList
+                                                    .removeWhere((result) =>
+                                                        result.idQuestion ==
+                                                            question
+                                                                .idQuestion &&
+                                                        result.answer ==
+                                                            answer.answer);
+                                              }
+                                              controller.update();
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    width: 24,
+                                                    height: 24,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: (answer.isCheck ??
+                                                              false)
+                                                          ? Colors.white
+                                                          : Colors.transparent,
+                                                      border: Border.all(
+                                                        color: Colors.white,
+                                                        width: 2,
                                                       ),
-                                                      const SizedBox(
-                                                        width: 8,
-                                                      ),
-                                                      Text(
-                                                        " ${question.answers![index]["answer"]} ",
-                                                        style: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 16,
-                                                        ),
-                                                      ),
-                                                    ],
+                                                    ),
+                                                    child: (answer.isCheck ??
+                                                            false)
+                                                        ? const Icon(
+                                                            Icons.check,
+                                                            color: Colors.black,
+                                                            size: 16,
+                                                          )
+                                                        : null,
                                                   ),
-                                                ),
-                                              ));
+                                                  const SizedBox(width: 8),
+                                                  Text(
+                                                    " ${answer.answer} ",
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
                                     },
                                   ),
                                 ),

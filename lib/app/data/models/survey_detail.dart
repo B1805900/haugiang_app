@@ -18,17 +18,34 @@ class SurveydetailModel {
   }
 }
 
+
+class AnswerModel {
+  String? answer;
+  String? moveto;
+  bool? isCheck;
+
+  AnswerModel(this.answer, this.moveto, this.isCheck);
+
+  factory AnswerModel.fromJson(Map<String, dynamic> json) {
+    return AnswerModel(
+      json['answer'],
+      json['moveto'],
+      json['isCheck'],
+    );
+  }
+}
+
 class QuestionModel {
   String? idQuestion;
   String? question;
   int? type;
-  List<Map<String, dynamic>>? answers;
+  List<AnswerModel>? answers;
 
   QuestionModel(this.idQuestion, this.question, this.type, this.answers);
 
   factory QuestionModel.fromJson(Map<String, dynamic> json) {
-    List<Map<String, dynamic>> answerList = (json['answers'] as List<dynamic>)
-        .map((answer) => {'answer': answer.toString(), 'isCheck': false})
+    List<AnswerModel> answerList = (json['answers'] as List<dynamic>)
+        .map((answer) => AnswerModel.fromJson(answer))
         .toList();
 
     return QuestionModel(
@@ -39,3 +56,4 @@ class QuestionModel {
     );
   }
 }
+
