@@ -11,6 +11,7 @@ class SurveyDetailController extends GetxController {
   var nameSurveytitle;
   var cccdNum;
   var idSurveyNum;
+  Map<String, int> answerCounts = {};
   //TODO: Implement SurveyDetailController
   final List<ResultModel> resultList = <ResultModel>[];
   void addResult(
@@ -176,6 +177,27 @@ class SurveyDetailController extends GetxController {
           TextButton(
             onPressed: () {
               Get.back();
+              Get.back();
+            },
+            child: const Text(
+              'Đóng',
+              style: TextStyle(color: primaryColor, fontSize: 18),
+            ),
+          ),
+        ],
+      ),
+      barrierDismissible: false,
+    );
+  }
+
+    void showDialogMessagenew(String message) {
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Thông báo'),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
               Get.back();
             },
             child: const Text(

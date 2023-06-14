@@ -36,9 +36,9 @@ class AnswerModel {
 }
 
 class QuestionModel {
-  String? idQuestion;
+  String idQuestion;
   String? question;
-  int? type;
+  int type;
   List<AnswerModel>? answers;
 
   QuestionModel(this.idQuestion, this.question, this.type, this.answers);
