@@ -12,6 +12,8 @@ class SurveyDetailController extends GetxController {
   var cccdNum;
   var idSurveyNum;
   Map<String, int> answerCounts = {};
+  Map<Key, int> listKeyofpage = {};
+
   //TODO: Implement SurveyDetailController
   final List<ResultModel> resultList = <ResultModel>[];
   void addResult(

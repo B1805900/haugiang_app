@@ -82,10 +82,23 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
   }
 
   Future<Widget> buildAnswerList(BuildContext context) async {
+  PageController pageController = PageController();
+  ScrollController scrollController = ScrollController();
     controller.resultList.clear();
+    controller.listKeyofpage.clear();
     final List<SurveydetailModel>? surVeydetail = await controller.fetchData();
-    PageController pageController = PageController();
     if (surVeydetail != null) {
+    for (int i=0; i<surVeydetail.length; i++) {
+      final SurveydetailModel survey = surVeydetail[i];
+          for(int j=0; j<survey.questions!.length; j++){
+            final QuestionModel question =  survey.questions![j];
+            controller.listKeyofpage[ValueKey(question.idQuestion)] = i;
+            // for(int k=0; k<question.answers!.length; k++){
+            //   final AnswerModel answer = question.answers![k];
+            //   print(answer.moveto);
+            // }
+          }
+    }
       return Stack(children: [
         PageView.builder(
           controller: pageController,
@@ -114,8 +127,7 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                         );
                       },
                       child: Container(
-                        width:
-                            itemWidth, // Định nghĩa chiều rộng của thanh ngang
+                        width: itemWidth, // Định nghĩa chiều rộng của thanh ngang
                         height: 10, // Định nghĩa chiều cao của thanh ngang
                         margin: const EdgeInsets.symmetric(
                             horizontal: 5), // Khoảng cách giữa các thanh ngang
@@ -143,11 +155,12 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                 ),
                 Expanded(
                   child: ListView.builder(
+                    controller: scrollController,
                     itemCount: survey.questions!.length,
                     itemBuilder: (context, questionIndex) {
                       final QuestionModel question =
                           survey.questions![questionIndex];
-                      return Padding(
+                     return Padding(
                         key: ValueKey(question.idQuestion),
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: InkWell(
@@ -244,8 +257,6 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                                                       question.idQuestion,
                                                       answer.answer,
                                                     );
-                                                    print(
-                                                        controller.answerCounts[question.idQuestion]);
                                                   } else {
                                                     controller.answerCounts[question.idQuestion] = controller.answerCounts[question.idQuestion]! - 1;
                                                     controller.resultList
@@ -255,10 +266,8 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                                                                     .idQuestion &&
                                                             result.answer ==
                                                                 answer.answer);
-                                                    print(controller.answerCounts[question.idQuestion]);
                                                   }
                                                   controller.update();
-                                                  //  print(ValueKey(question.idQuestion));
                                                 } else {
                                                   if ((answer.isCheck ?? true)) {
                                                     controller.answerCounts[question.idQuestion] = controller.answerCounts[question.idQuestion]! - 1;
@@ -272,11 +281,33 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                                                                     .idQuestion &&
                                                             result.answer ==
                                                                 answer.answer);
-                                                    print(controller.answerCounts[question.idQuestion]);
                                                     controller.update();
                                                   }else{
-                                                    print("QUá số lượng đáp án");
                                                     controller.showDialogMessagenew("Vượt quá số lượng đáp án!");
+                                                  }
+                                                }
+                                                if(answer.isCheck == true){
+                                                //  int? newPageIndex = controller.listKeyofpage[ValueKey("${answer.moveto}")];
+                                                int? newPageIndex = 1;
+                                                if (newPageIndex != groupIndex) {
+                                                    Future.delayed(Duration(milliseconds: 500), () {
+                                                      pageController.jumpToPage(newPageIndex);
+                                                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                                                      scrollController.animateTo(
+                                                        scrollController.position.maxScrollExtent,
+                                                        duration: Duration(milliseconds: 500),
+                                                        curve: Curves.ease,
+                                                      );
+                                                      });
+                                                    });
+                                                  } else {
+                                                    Future.delayed(Duration(milliseconds: 500), () {
+                                                    scrollController.animateTo(
+                                                        scrollController.position.maxScrollExtent,
+                                                        duration: Duration(milliseconds: 500),
+                                                        curve: Curves.ease,
+                                                      );
+                                                    });
                                                   }
                                                 }
                                               },
@@ -348,3 +379,4 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
     }
   }
 }
+
