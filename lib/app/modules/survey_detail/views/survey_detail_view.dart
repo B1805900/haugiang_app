@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../../common/constant.dart';
 import '../controllers/survey_detail_controller.dart';
 import '../../../data/models/survey_detail.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 class SurveyDetailView extends GetView<SurveyDetailController> {
   const SurveyDetailView({Key? key}) : super(key: key);
@@ -83,7 +84,8 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
 
   Future<Widget> buildAnswerList(BuildContext context) async {
   PageController pageController = PageController();
-  ScrollController scrollController = ScrollController();
+  //ScrollController scrollController = ScrollController();
+  AutoScrollController scrollController = AutoScrollController();
     controller.resultList.clear();
     controller.listKeyofpage.clear();
     final List<SurveydetailModel>? surVeydetail = await controller.fetchData();
@@ -287,27 +289,43 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                                                   }
                                                 }
                                                 if(answer.isCheck == true){
-                                                //  int? newPageIndex = controller.listKeyofpage[ValueKey("${answer.moveto}")];
-                                                int? newPageIndex = 1;
+                                                  int? newPageIndex = controller.listKeyofpage[ValueKey("${answer.moveto}")];
+                                               // int? newPageIndex = 1;
                                                 if (newPageIndex != groupIndex) {
                                                     Future.delayed(Duration(milliseconds: 500), () {
-                                                      pageController.jumpToPage(newPageIndex);
+                                                      pageController.jumpToPage(newPageIndex!);
                                                       WidgetsBinding.instance.addPostFrameCallback((_) {
-                                                      scrollController.animateTo(
+                                                      ValueKey targetKey = ValueKey("${answer.moveto}");
+                                                        scrollController.animateTo(
                                                         scrollController.position.maxScrollExtent,
                                                         duration: Duration(milliseconds: 500),
                                                         curve: Curves.ease,
-                                                      );
+                                                      ).then((_) {
+                                                        // Sau khi cuộn đến cuối trang, cuộn đến phần tử có key là targetKey
+                                                        scrollController.scrollToIndex(
+                                                          controller.listKeyofpage[targetKey]!,
+                                                          duration: Duration(milliseconds: 500),
+                                                          preferPosition: AutoScrollPosition.end,
+                                                        );
+                                                      });
                                                       });
                                                     });
                                                   } else {
                                                     Future.delayed(Duration(milliseconds: 500), () {
+                                                    ValueKey targetKey = ValueKey("${answer.moveto}");
                                                     scrollController.animateTo(
-                                                        scrollController.position.maxScrollExtent,
-                                                        duration: Duration(milliseconds: 500),
-                                                        curve: Curves.ease,
-                                                      );
-                                                    });
+                                                    scrollController.position.maxScrollExtent,
+                                                    duration: Duration(milliseconds: 500),
+                                                    curve: Curves.ease,
+                                                  ).then((_) {
+                                                    // Sau khi cuộn đến cuối trang, cuộn đến phần tử có key là targetKey
+                                                    scrollController.scrollToIndex(
+                                                      controller.listKeyofpage[targetKey]!,
+                                                      duration: Duration(milliseconds: 500),
+                                                      preferPosition: AutoScrollPosition.begin,
+                                                    );
+                                                  });
+                                                  });
                                                   }
                                                 }
                                               },
