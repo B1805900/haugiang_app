@@ -4,7 +4,8 @@ import '../../../common/constant.dart';
 import '../controllers/survey_detail_controller.dart';
 import '../../../data/models/survey_detail.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-
+import 'package:flutter/gestures.dart';
+import 'package:flutter/rendering.dart';
 
 class SurveyDetailView extends GetView<SurveyDetailController> {
   const SurveyDetailView({Key? key}) : super(key: key);
@@ -35,7 +36,6 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     // Nếu xảy ra lỗi, hiển thị thông báo lỗi
-                    print(snapshot.error);
                     return Center(
                         child: Text('Đã xảy ra lỗi: ${snapshot.error}'));
                   } else {
@@ -84,29 +84,28 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
   }
 
   Future<Widget> buildAnswerList(BuildContext context) async {
-  PageController pageController = PageController();
-  //ScrollController scrollController = ScrollController();
-  // AutoScrollController scrollController = AutoScrollController();
-  ItemScrollController _scrollController = ItemScrollController();
-  ItemPositionsListener _itemPositionsListener = ItemPositionsListener.create();
+    PageController pageController = PageController();
+    ItemPositionsListener _itemPositionsListener =
+        ItemPositionsListener.create();
+    ItemScrollController _scrollController = ItemScrollController();
     controller.resultList.clear();
     controller.listKeyofpage.clear();
     controller.sttPadding.clear();
     final List<SurveydetailModel>? surVeydetail = await controller.fetchData();
     if (surVeydetail != null) {
-    for (int i=0; i<surVeydetail.length; i++) {
-      final SurveydetailModel survey = surVeydetail[i];
-          for(int j=0; j<survey.questions!.length; j++){
-            final QuestionModel question =  survey.questions![j];
-            controller.listKeyofpage[ValueKey(question.idQuestion)] = i;
-            controller.sttPadding[ValueKey(question.idQuestion)] = j;
-            for(int k=0; k<question.answers!.length; k++){
+      for (int i = 0; i < surVeydetail.length; i++) {
+        final SurveydetailModel survey = surVeydetail[i];
+        for (int j = 0; j < survey.questions!.length; j++) {
+          final QuestionModel question = survey.questions![j];
+          controller.listKeyofpage[ValueKey(question.idQuestion)] = i;
+          controller.sttPadding[ValueKey(question.idQuestion)] = j;
+          for (int k = 0; k < question.answers!.length; k++) {
             //  controller.sttPadding[ValueKey(question.idQuestion)] = k;
-              // final AnswerModel answer = question.answers![k];
-              // print(answer.moveto);
-            }
+            // final AnswerModel answer = question.answers![k];
+            // print(answer.moveto);
           }
-    }
+        }
+      }
       return Stack(children: [
         PageView.builder(
           controller: pageController,
@@ -135,7 +134,8 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                         );
                       },
                       child: Container(
-                        width: itemWidth, // Định nghĩa chiều rộng của thanh ngang
+                        width:
+                            itemWidth, // Định nghĩa chiều rộng của thanh ngang
                         height: 10, // Định nghĩa chiều cao của thanh ngang
                         margin: const EdgeInsets.symmetric(
                             horizontal: 5), // Khoảng cách giữa các thanh ngang
@@ -161,235 +161,340 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: 
-                ScrollablePositionedList.builder(
-                  itemScrollController: _scrollController,
-                  itemPositionsListener: _itemPositionsListener,
-                  itemCount: survey.questions!.length,
-                  itemBuilder: (context, questionIndex) {
-                      final QuestionModel question =
-                          survey.questions![questionIndex];
-                     return Padding(
-                        key: ValueKey(question.idQuestion),
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: InkWell(
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 8),
-                            child: Container(
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                border:
-                                    Border.all(color: primaryColor, width: 3),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.class_rounded,
-                                          color: secondaryColor),
-                                      const SizedBox(width: 8),
-                                      SizedBox(
-                                        width: Get.width * 0.7,
-                                        child: Text(
-                                          "Câu hỏi ${questionIndex + 1}: ${question.question}",
-                                          maxLines: 10,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.normal,
-                                            height: 1.5,
-                                          ),
-                                        ),
+                      Flexible(
+                        child: NotificationListener<ScrollNotification>(
+                        onNotification: (notification) {
+                          if (notification is ScrollUpdateNotification) {
+                            final scrollDelta = notification.metrics.extentBefore - notification.metrics.extentInside;
+                            if (scrollDelta < 0) {
+                              // Scrolling upwards
+                              pageController.nextPage(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
+                            } else if (scrollDelta > 0) {
+                              // Scrolling downwards
+                              pageController.previousPage(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
+                            }
+                          }
+                          return false;
+                        },
+                        child: ScrollablePositionedList.builder(
+                          itemScrollController: _scrollController, // Thêm itemScrollController vào ScrollablePositionedList
+                          itemPositionsListener: _itemPositionsListener, // Thêm itemPositionsListener vào ScrollablePositionedList
+                          itemCount: survey.questions!.length,
+                          itemBuilder: (context, questionIndex) {
+                              final QuestionModel question =
+                                  survey.questions![questionIndex];
+                              return Padding(
+                                key: ValueKey(question.idQuestion),
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                child: InkWell(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 8),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(
+                                            color: primaryColor, width: 3),
                                       ),
-                                    ],
-                                  ),
-                                  Container(
-                                    height: 2,
-                                    color: Colors.white,
-                                    margin:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.card_membership_rounded,
-                                          color: secondaryColor),
-                                      const SizedBox(width: 10),
-                                      Text(
-                                        "Chọn tối đa: ${question.type} đáp án",
-                                        style: const TextStyle(
-                                          fontSize: 17,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    height: 2,
-                                    color: Colors.white,
-                                    margin:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  SingleChildScrollView(
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      physics:const NeverScrollableScrollPhysics(),
-                                      itemCount: question.answers!.length,
-                                      itemBuilder: (context, index) {
-                                      //  controller.countAnswer = 0;
-                                      controller.answerCounts[question.idQuestion] = 0;
-                                        return GetBuilder<
-                                            SurveyDetailController>(
-                                          init: SurveyDetailController(),
-                                          builder: (controller) {
-                                            final AnswerModel answer =
-                                                question.answers![index];
-                                            return InkWell(
-                                              onTap: () {
-                                                if (controller.answerCounts[question.idQuestion]! <
-                                                    question.type) {
-                                                  answer.isCheck =
-                                                      !(answer.isCheck ??
-                                                          false);
-                                                  if ((answer.isCheck ??
-                                                      false)) {
-                                                    controller.answerCounts[question.idQuestion] = controller.answerCounts[question.idQuestion]! + 1;
-                                                    controller.addResult(
-                                                      controller.cccdNum
-                                                          .toString(),
-                                                      controller.idSurveyNum
-                                                          .toString(),
-                                                      question.idQuestion,
-                                                      answer.answer,
-                                                    );
-                                                  } else {
-                                                    controller.answerCounts[question.idQuestion] = controller.answerCounts[question.idQuestion]! - 1;
-                                                    controller.resultList
-                                                        .removeWhere((result) =>
-                                                            result.idQuestion ==
-                                                                question
-                                                                    .idQuestion &&
-                                                            result.answer ==
-                                                                answer.answer);
-                                                  }
-                                                  controller.update();
-                                                } else {
-                                                  if ((answer.isCheck ?? true)) {
-                                                    controller.answerCounts[question.idQuestion] = controller.answerCounts[question.idQuestion]! - 1;
-                                                    answer.isCheck =
-                                                      !(answer.isCheck ??
-                                                          true);
-                                                    controller.resultList
-                                                        .removeWhere((result) =>
-                                                            result.idQuestion ==
-                                                                question
-                                                                    .idQuestion &&
-                                                            result.answer ==
-                                                                answer.answer);
-                                                    controller.update();
-                                                  }else{
-                                                    controller.showDialogMessagenew("Vượt quá số lượng đáp án!");
-                                                  }
-                                                }
-                                                if(answer.isCheck == true){
-                                                  int? newPageIndex = controller.listKeyofpage[ValueKey("${answer.moveto}")];
-                                                  int? newStt = controller.sttPadding[ValueKey("${answer.moveto}")];
-                                                  print(newStt);
-                                               // int? newPageIndex = 1;
-                                               if(newPageIndex == null){
-                                                  print("Câu hỏi liên kết không nằm cùng khảo sats");
-                                                } else if (newPageIndex != groupIndex) {
-                                                    Future.delayed(const Duration(milliseconds: 500), () {
-                                                      pageController.jumpToPage(newPageIndex);
-                                                      if(newStt != null){
-                                                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                                                        _scrollController.scrollTo(
-                                                          index: newStt,
-                                                          duration: Duration(milliseconds: 500),
-                                                        );
-                                                      //  controller.showDialogMessagenew("Cuộn thành công!");
-                                                      });
-                                                      }else{
-                                                        print("câu hỏi kế tiếp không tồn tại");
-                                                      }
-                                                    });
-                                                  } else  {
-                                                    if(newStt != null){
-                                                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                                                        _scrollController.scrollTo(
-                                                          index: newStt,
-                                                          duration: Duration(milliseconds: 500),
-                                                        );
-                                                      //  controller.showDialogMessagenew("Cuộn thành công!");
-                                                      });
-                                                      }else{
-                                                        print("câu hỏi kế tiếp không tồn tại");
-                                                      }
-                                                  }
-                                                }
-                                              },
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Row(
-                                                  children: [
-                                                    Container(
-                                                      width: 24,
-                                                      height: 24,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: (answer
-                                                                    .isCheck ??
-                                                                false)
-                                                            ? Colors.white
-                                                            : Colors
-                                                                .transparent,
-                                                        border: Border.all(
-                                                          color: Colors.white,
-                                                          width: 2,
-                                                        ),
-                                                      ),
-                                                      child: (answer.isCheck ??
-                                                              false)
-                                                          ? const Icon(
-                                                              Icons.check,
-                                                              color:
-                                                                  Colors.black,
-                                                              size: 16,
-                                                            )
-                                                          : null,
-                                                    ),
-                                                    const SizedBox(width: 8),
-                                                    Text(
-                                                      " ${answer.answer} ",
-                                                      style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 16,
-                                                      ),
-                                                    ),
-                                                  ],
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const Icon(Icons.class_rounded,
+                                                  color: secondaryColor),
+                                              const SizedBox(width: 8),
+                                              SizedBox(
+                                                width: Get.width * 0.7,
+                                                child: Text(
+                                                  "Câu hỏi ${questionIndex + 1}: ${question.question}",
+                                                  maxLines: 10,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    height: 1.5,
+                                                  ),
                                                 ),
                                               ),
-                                            );
-                                          },
-                                        );
-                                      },
+                                            ],
+                                          ),
+                                          Container(
+                                            height: 2,
+                                            color: Colors.white,
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 5),
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                  Icons.card_membership_rounded,
+                                                  color: secondaryColor),
+                                              const SizedBox(width: 10),
+                                              Text(
+                                                "Chọn tối đa: ${question.type} đáp án",
+                                                style: const TextStyle(
+                                                  fontSize: 17,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.normal,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            height: 2,
+                                            color: Colors.white,
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 5),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          SingleChildScrollView(
+                                            child: ListView.builder(
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              itemCount:
+                                                  question.answers!.length,
+                                              itemBuilder: (context, index) {
+                                                //  controller.countAnswer = 0;
+                                                controller.answerCounts[
+                                                    question.idQuestion] = 0;
+                                                return GetBuilder<
+                                                    SurveyDetailController>(
+                                                  init:
+                                                      SurveyDetailController(),
+                                                  builder: (controller) {
+                                                    final AnswerModel answer =
+                                                        question
+                                                            .answers![index];
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        if (controller
+                                                                    .answerCounts[
+                                                                question
+                                                                    .idQuestion]! <
+                                                            question.type) {
+                                                          answer.isCheck =
+                                                              !(answer.isCheck ??
+                                                                  false);
+                                                          if ((answer.isCheck ??
+                                                              false)) {
+                                                            controller
+                                                                    .answerCounts[
+                                                                question
+                                                                    .idQuestion] = controller
+                                                                        .answerCounts[
+                                                                    question
+                                                                        .idQuestion]! +
+                                                                1;
+                                                            controller
+                                                                .addResult(
+                                                              controller.cccdNum
+                                                                  .toString(),
+                                                              controller
+                                                                  .idSurveyNum
+                                                                  .toString(),
+                                                              question
+                                                                  .idQuestion,
+                                                              answer.answer,
+                                                            );
+                                                          } else {
+                                                            controller
+                                                                    .answerCounts[
+                                                                question
+                                                                    .idQuestion] = controller
+                                                                        .answerCounts[
+                                                                    question
+                                                                        .idQuestion]! -
+                                                                1;
+                                                            controller
+                                                                .resultList
+                                                                .removeWhere((result) =>
+                                                                    result.idQuestion ==
+                                                                        question
+                                                                            .idQuestion &&
+                                                                    result.answer ==
+                                                                        answer
+                                                                            .answer);
+                                                          }
+                                                          controller.update();
+                                                        } else {
+                                                          if ((answer.isCheck ??
+                                                              true)) {
+                                                            controller
+                                                                    .answerCounts[
+                                                                question
+                                                                    .idQuestion] = controller
+                                                                        .answerCounts[
+                                                                    question
+                                                                        .idQuestion]! -
+                                                                1;
+                                                            answer.isCheck =
+                                                                !(answer.isCheck ??
+                                                                    true);
+                                                            controller
+                                                                .resultList
+                                                                .removeWhere((result) =>
+                                                                    result.idQuestion ==
+                                                                        question
+                                                                            .idQuestion &&
+                                                                    result.answer ==
+                                                                        answer
+                                                                            .answer);
+                                                            controller.update();
+                                                          } else {
+                                                            controller
+                                                                .showDialogMessagenew(
+                                                                    "Vượt quá số lượng đáp án!");
+                                                          }
+                                                        }
+                                                        if (answer.isCheck ==
+                                                            true) {
+                                                          int? newPageIndex = controller
+                                                                  .listKeyofpage[
+                                                              ValueKey(
+                                                                  "${answer.moveto}")];
+                                                          int? newStt = controller
+                                                                  .sttPadding[
+                                                              ValueKey(
+                                                                  "${answer.moveto}")];
+                                                          print(newStt);
+                                                          if (newPageIndex ==
+                                                              null) {
+                                                            print(
+                                                                "Câu hỏi liên kết không nằm cùng khảo sats");
+                                                          } else if (newPageIndex !=
+                                                              groupIndex) {
+                                                            Future.delayed(
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        500),
+                                                                () {
+                                                              pageController
+                                                                  .jumpToPage(
+                                                                      newPageIndex);
+                                                              if (newStt !=
+                                                                  null) {
+                                                                WidgetsBinding
+                                                                    .instance
+                                                                    .addPostFrameCallback(
+                                                                        (_) {
+                                                                  _scrollController
+                                                                      .scrollTo(
+                                                                    index:
+                                                                        newStt,
+                                                                    duration: const Duration(
+                                                                        milliseconds:
+                                                                            500),
+                                                                  );
+                                                                });
+                                                              } else {
+                                                                print(
+                                                                    "câu hỏi kế tiếp không tồn tại");
+                                                              }
+                                                            });
+                                                          } else {
+                                                            if (newStt !=
+                                                                null) {
+                                                              WidgetsBinding
+                                                                  .instance
+                                                                  .addPostFrameCallback(
+                                                                      (_) {
+                                                                _scrollController
+                                                                    .scrollTo(
+                                                                  index: newStt,
+                                                                  duration: const Duration(
+                                                                      milliseconds:
+                                                                          500),
+                                                                );
+                                                              });
+                                                            } else {
+                                                              print(
+                                                                  "câu hỏi kế tiếp không tồn tại");
+                                                            }
+                                                          }
+                                                        }
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Row(
+                                                          children: [
+                                                            Container(
+                                                              width: 24,
+                                                              height: 24,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: (answer.isCheck ??
+                                                                        false)
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .transparent,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  width: 2,
+                                                                ),
+                                                              ),
+                                                              child: (answer
+                                                                          .isCheck ??
+                                                                      false)
+                                                                  ? const Icon(
+                                                                      Icons
+                                                                          .check,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      size: 16,
+                                                                    )
+                                                                  : null,
+                                                            ),
+                                                            const SizedBox(
+                                                                width: 8),
+                                                            Text(
+                                                              " ${answer.answer} ",
+                                                              style:
+                                                                  const TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
+                                ),
+                              );
+                            },
                           ),
                         ),
-                      );
-                    },
-                  ),
-                ),
+                      ),
+                    
               ],
             );
           },
@@ -401,4 +506,3 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
     }
   }
 }
-
