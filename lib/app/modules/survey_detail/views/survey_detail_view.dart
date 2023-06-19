@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import '../../../common/constant.dart';
 import '../controllers/survey_detail_controller.dart';
 import '../../../data/models/survey_detail.dart';
-import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
 
 class SurveyDetailView extends GetView<SurveyDetailController> {
   const SurveyDetailView({Key? key}) : super(key: key);
@@ -85,7 +86,9 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
   Future<Widget> buildAnswerList(BuildContext context) async {
   PageController pageController = PageController();
   //ScrollController scrollController = ScrollController();
-  AutoScrollController scrollController = AutoScrollController();
+  // AutoScrollController scrollController = AutoScrollController();
+  ItemScrollController _scrollController = ItemScrollController();
+  ItemPositionsListener _itemPositionsListener = ItemPositionsListener.create();
     controller.resultList.clear();
     controller.listKeyofpage.clear();
     controller.sttPadding.clear();
@@ -159,10 +162,12 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                   ),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    controller: scrollController,
-                    itemCount: survey.questions!.length,
-                    itemBuilder: (context, questionIndex) {
+                  child: 
+                ScrollablePositionedList.builder(
+                  itemScrollController: _scrollController,
+                  itemPositionsListener: _itemPositionsListener,
+                  itemCount: survey.questions!.length,
+                  itemBuilder: (context, questionIndex) {
                       final QuestionModel question =
                           survey.questions![questionIndex];
                      return Padding(
@@ -293,33 +298,38 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                                                 }
                                                 if(answer.isCheck == true){
                                                   int? newPageIndex = controller.listKeyofpage[ValueKey("${answer.moveto}")];
+                                                  int? newStt = controller.sttPadding[ValueKey("${answer.moveto}")];
+                                                  print(newStt);
                                                // int? newPageIndex = 1;
                                                if(newPageIndex == null){
                                                   print("Câu hỏi liên kết không nằm cùng khảo sats");
                                                 } else if (newPageIndex != groupIndex) {
                                                     Future.delayed(const Duration(milliseconds: 500), () {
                                                       pageController.jumpToPage(newPageIndex);
-                                                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                                                        scrollController.animateTo(
-                                                          scrollController.position.maxScrollExtent,  // Vị trí cuối cùng của SingleChildScrollView
-                                                          duration: const Duration(milliseconds: 500),  // Thời gian cuộn
-                                                          curve: Curves.ease,  // Hiệu ứng cuộn
+                                                      if(newStt != null){
+                                                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                                                        _scrollController.scrollTo(
+                                                          index: newStt,
+                                                          duration: Duration(milliseconds: 500),
                                                         );
                                                       //  controller.showDialogMessagenew("Cuộn thành công!");
                                                       });
+                                                      }else{
+                                                        print("câu hỏi kế tiếp không tồn tại");
+                                                      }
                                                     });
                                                   } else  {
-                                                    Future.delayed(const Duration(milliseconds: 500), () {
-                                                      pageController.jumpToPage(newPageIndex);
-                                                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                                                        scrollController.animateTo(
-                                                          scrollController.position.maxScrollExtent,  // Vị trí cuối cùng của SingleChildScrollView
-                                                          duration: const Duration(milliseconds: 500),  // Thời gian cuộn
-                                                          curve: Curves.ease,  // Hiệu ứng cuộn
+                                                    if(newStt != null){
+                                                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                                                        _scrollController.scrollTo(
+                                                          index: newStt,
+                                                          duration: Duration(milliseconds: 500),
                                                         );
                                                       //  controller.showDialogMessagenew("Cuộn thành công!");
                                                       });
-                                                    });
+                                                      }else{
+                                                        print("câu hỏi kế tiếp không tồn tại");
+                                                      }
                                                   }
                                                 }
                                               },
