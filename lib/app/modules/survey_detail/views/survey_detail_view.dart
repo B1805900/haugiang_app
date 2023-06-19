@@ -88,6 +88,7 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
   AutoScrollController scrollController = AutoScrollController();
     controller.resultList.clear();
     controller.listKeyofpage.clear();
+    controller.sttPadding.clear();
     final List<SurveydetailModel>? surVeydetail = await controller.fetchData();
     if (surVeydetail != null) {
     for (int i=0; i<surVeydetail.length; i++) {
@@ -95,10 +96,12 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
           for(int j=0; j<survey.questions!.length; j++){
             final QuestionModel question =  survey.questions![j];
             controller.listKeyofpage[ValueKey(question.idQuestion)] = i;
-            // for(int k=0; k<question.answers!.length; k++){
-            //   final AnswerModel answer = question.answers![k];
-            //   print(answer.moveto);
-            // }
+            controller.sttPadding[ValueKey(question.idQuestion)] = j;
+            for(int k=0; k<question.answers!.length; k++){
+            //  controller.sttPadding[ValueKey(question.idQuestion)] = k;
+              // final AnswerModel answer = question.answers![k];
+              // print(answer.moveto);
+            }
           }
     }
       return Stack(children: [
@@ -291,40 +294,33 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                                                 if(answer.isCheck == true){
                                                   int? newPageIndex = controller.listKeyofpage[ValueKey("${answer.moveto}")];
                                                // int? newPageIndex = 1;
-                                                if (newPageIndex != groupIndex) {
-                                                    Future.delayed(Duration(milliseconds: 500), () {
-                                                      pageController.jumpToPage(newPageIndex!);
+                                         //      controller.showDialogMessagenew("${newPageIndex}");
+                                               if(newPageIndex == null){
+                                            //      controller.showDialogMessagenew("Câu hỏi không thuộc khảo sát này!");
+                                                  } else if (newPageIndex != groupIndex) {
+                                                    Future.delayed(const Duration(milliseconds: 500), () {
+                                                      pageController.jumpToPage(newPageIndex);
                                                       WidgetsBinding.instance.addPostFrameCallback((_) {
-                                                      ValueKey targetKey = ValueKey("${answer.moveto}");
-                                                        scrollController.animateTo(
-                                                        scrollController.position.maxScrollExtent,
-                                                        duration: Duration(milliseconds: 500),
-                                                        curve: Curves.ease,
-                                                      ).then((_) {
-                                                        // Sau khi cuộn đến cuối trang, cuộn đến phần tử có key là targetKey
-                                                        scrollController.scrollToIndex(
-                                                          controller.listKeyofpage[targetKey]!,
-                                                          duration: Duration(milliseconds: 500),
-                                                          preferPosition: AutoScrollPosition.end,
-                                                        );
-                                                      });
+                                                      //ValueKey targetKey = ValueKey(answer.moveto);
+                                                      print(ValueKey("${answer.moveto}"));
+                                                      print(controller.sttPadding);
+                                                      print(controller.sttPadding[ValueKey("${answer.moveto}")]);
+                                                      scrollController.scrollToIndex(
+                                                        controller.sttPadding[ValueKey("${answer.moveto}")]!,
+                                                        preferPosition: AutoScrollPosition.middle,
+                                                      );
                                                       });
                                                     });
-                                                  } else {
-                                                    Future.delayed(Duration(milliseconds: 500), () {
-                                                    ValueKey targetKey = ValueKey("${answer.moveto}");
-                                                    scrollController.animateTo(
-                                                    scrollController.position.maxScrollExtent,
-                                                    duration: Duration(milliseconds: 500),
-                                                    curve: Curves.ease,
-                                                  ).then((_) {
-                                                    // Sau khi cuộn đến cuối trang, cuộn đến phần tử có key là targetKey
-                                                    scrollController.scrollToIndex(
-                                                      controller.listKeyofpage[targetKey]!,
-                                                      duration: Duration(milliseconds: 500),
-                                                      preferPosition: AutoScrollPosition.begin,
-                                                    );
-                                                  });
+                                                  } else  {
+                                                    Future.delayed(const Duration(milliseconds: 500), () {
+                                                     //ValueKey targetKey = ValueKey(answer.moveto);
+                                                      print(ValueKey("${answer.moveto}"));
+                                                      print(controller.sttPadding);
+                                                      print(controller.sttPadding[ValueKey("${answer.moveto}")]);
+                                                      scrollController.scrollToIndex(
+                                                        controller.sttPadding[ValueKey("${answer.moveto}")]!,
+                                                        preferPosition: AutoScrollPosition.middle,
+                                                      );
                                                   });
                                                   }
                                                 }

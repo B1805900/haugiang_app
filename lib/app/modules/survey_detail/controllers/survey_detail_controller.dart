@@ -13,6 +13,7 @@ class SurveyDetailController extends GetxController {
   var idSurveyNum;
   Map<String, int> answerCounts = {};
   Map<Key, int> listKeyofpage = {};
+  Map<Key, int> sttPadding = {};
 
   //TODO: Implement SurveyDetailController
   final List<ResultModel> resultList = <ResultModel>[];
