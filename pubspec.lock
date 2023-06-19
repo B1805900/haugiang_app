@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.13.0"
+  anchor_scroll_controller:
+    dependency: "direct main"
+    description:
+      name: anchor_scroll_controller
+      sha256: "484f4feac32a434cb6c9f5c092783b7829555e257597c6e05dddb0f5f7980711"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.3"
   args:
     dependency: transitive
     description:

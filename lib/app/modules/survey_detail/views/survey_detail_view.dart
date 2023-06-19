@@ -294,34 +294,32 @@ class SurveyDetailView extends GetView<SurveyDetailController> {
                                                 if(answer.isCheck == true){
                                                   int? newPageIndex = controller.listKeyofpage[ValueKey("${answer.moveto}")];
                                                // int? newPageIndex = 1;
-                                         //      controller.showDialogMessagenew("${newPageIndex}");
                                                if(newPageIndex == null){
-                                            //      controller.showDialogMessagenew("Câu hỏi không thuộc khảo sát này!");
-                                                  } else if (newPageIndex != groupIndex) {
+                                                  print("Câu hỏi liên kết không nằm cùng khảo sats");
+                                                } else if (newPageIndex != groupIndex) {
                                                     Future.delayed(const Duration(milliseconds: 500), () {
                                                       pageController.jumpToPage(newPageIndex);
                                                       WidgetsBinding.instance.addPostFrameCallback((_) {
-                                                      //ValueKey targetKey = ValueKey(answer.moveto);
-                                                      print(ValueKey("${answer.moveto}"));
-                                                      print(controller.sttPadding);
-                                                      print(controller.sttPadding[ValueKey("${answer.moveto}")]);
-                                                      scrollController.scrollToIndex(
-                                                        controller.sttPadding[ValueKey("${answer.moveto}")]!,
-                                                        preferPosition: AutoScrollPosition.middle,
-                                                      );
+                                                        scrollController.animateTo(
+                                                          scrollController.position.maxScrollExtent,  // Vị trí cuối cùng của SingleChildScrollView
+                                                          duration: const Duration(milliseconds: 500),  // Thời gian cuộn
+                                                          curve: Curves.ease,  // Hiệu ứng cuộn
+                                                        );
+                                                      //  controller.showDialogMessagenew("Cuộn thành công!");
                                                       });
                                                     });
                                                   } else  {
                                                     Future.delayed(const Duration(milliseconds: 500), () {
-                                                     //ValueKey targetKey = ValueKey(answer.moveto);
-                                                      print(ValueKey("${answer.moveto}"));
-                                                      print(controller.sttPadding);
-                                                      print(controller.sttPadding[ValueKey("${answer.moveto}")]);
-                                                      scrollController.scrollToIndex(
-                                                        controller.sttPadding[ValueKey("${answer.moveto}")]!,
-                                                        preferPosition: AutoScrollPosition.middle,
-                                                      );
-                                                  });
+                                                      pageController.jumpToPage(newPageIndex);
+                                                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                                                        scrollController.animateTo(
+                                                          scrollController.position.maxScrollExtent,  // Vị trí cuối cùng của SingleChildScrollView
+                                                          duration: const Duration(milliseconds: 500),  // Thời gian cuộn
+                                                          curve: Curves.ease,  // Hiệu ứng cuộn
+                                                        );
+                                                      //  controller.showDialogMessagenew("Cuộn thành công!");
+                                                      });
+                                                    });
                                                   }
                                                 }
                                               },
